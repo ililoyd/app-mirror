@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "564087578589",
+    "firebase_url": "https://demivolee-app.firebaseio.com",
+    "project_id": "demivolee-app",
+    "storage_bucket": "demivolee-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564087578589:android:8e1a965692257834",
+        "android_client_info": {
+          "package_name": "com.demivolee.homeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564087578589-mdjeongvoek2gvvbad5tu8kjq1d04a16.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbfEsbohRip4Eeg0WHZP3TDZOuBBMwas4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
