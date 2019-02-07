@@ -10,7 +10,7 @@ homepage: demivolee.com
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.3.6+19
+version: 0.4.1+23
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -27,12 +27,13 @@ dependencies:
   firebase_analytics: ^2.0.0
   cupertino_icons: ^0.1.2
   firebase_performance: ^0.1.0
+  firebase_admob: ^0.8.0
   flutter_html: 
     path : "../flutter_html/flutter_html/"
 
   #flutter_html_view: ^0.5.10
   #flutter_webview_plugin: ^0.3.0+2
-  #webview_flutter: ^0.3.0
+  # webview_flutter: ^0.3.1
   #html2md: ^0.3.0
   #flutter_markdown: ^0.2.0
   #flutter_inappbrowser: ^0.5.51
@@ -48,9 +49,12 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon" 
   ios: true
-  image_path: "assets/logov2_squarely.png"
-  #image_path: "assets/logo_arrondi.png"
-  #image_path: "assets/logo.png"
+  image_path: "assets/logov2_round2.png"
+  # image_path: "assets/logov2_round.png"
+  # image_path: "assets/logov2_squarely.png"
+  # image_path: "assets/logo_arrondi.png"
+  # image_path: "assets/logo.png"
+  # flutter packages pub run flutter_launcher_icons:main
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

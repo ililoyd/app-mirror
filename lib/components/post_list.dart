@@ -5,8 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'package:firebase_performance/firebase_performance.dart';
-
+import '../utils/httpController.dart';
 import '../post/post_preload.dart';
 
 import '../post/post.dart';
@@ -49,83 +48,54 @@ class _DVPostListState extends State<DVPostList> {
     }
 
     requestUri = Uri.encodeFull(requestUri);
-    final HttpMetric metric = FirebasePerformance.instance
-            .newHttpMetric(requestUri, HttpMethod.Get);
-    
-    await metric.start();
-    try{
-      http.Response res = await http.get(requestUri, headers: {"Accept": "application/json"});
-      metric
-        ..responsePayloadSize = res.contentLength
-        ..responseContentType = res.headers['Content-Type']
-        ..requestPayloadSize = res.contentLength
-        ..httpResponseCode = res.statusCode;
+    http.Response res = await HttpController.get(requestUri);
 
-      if (res.statusCode == 200) {
-        setState(() {      
-          var resBody = json.decode(res.body);
-          if(!(resBody is Map)){
-            if(this._posts != null){
-              this._posts.addAll(List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList()));
-            }
-            else{
-              this._posts = List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList());
-            }
+    if (res.statusCode == 200) {
+      setState(() {      
+        var resBody = json.decode(res.body);
+        if(!(resBody is Map)){
+          if(this._posts != null){
+            this._posts.addAll(List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList()));
           }
-        });
-      }
-      else {
-        if(res.statusCode == 400){
-          print("Max Range");
+          else{
+            this._posts = List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList());
+          }
         }
-        else{
-          throw Exception('Failed to load Post');
-        }
+      });
+    }
+    else {
+      if(res.statusCode == 400){
+        print("Max Range");
       }
-    }catch (e) {
-      print(e.toString());
-    }finally {
-      await metric.stop();
-    }// fill our posts list with results and update state  
+      else{
+        throw Exception('Failed to load Post');
+      }
+    }
   }
 
   Future<void> _refreshList(BuildContext context) async {
     var url = Uri.encodeFull(this.storedRequest);
-    final HttpMetric metric = FirebasePerformance.instance
-            .newHttpMetric(url, HttpMethod.Get);
-    await metric.start();
-    try{
-      final SnackBar snackBar = SnackBar(
-        content: Text('Rafraichissement des articles...', textAlign: TextAlign.center,), 
-        duration: const Duration(seconds: 1),
-        backgroundColor: Color(0xFF323232).withOpacity(0.8),
-        );
-      Scaffold.of(context).showSnackBar(snackBar);
 
-      http.Response res = await http.get(url, headers: {"Accept": "application/json"});
-      metric
-        ..responsePayloadSize = res.contentLength
-        ..responseContentType = res.headers['Content-Type']
-        ..requestPayloadSize = res.contentLength
-        ..httpResponseCode = res.statusCode;
+    final SnackBar snackBar = SnackBar(
+      content: Text('Rafraichissement des articles...', textAlign: TextAlign.center,), 
+      duration: const Duration(seconds: 1),
+      backgroundColor: Color(0xFF323232).withOpacity(0.8),
+      );
+    Scaffold.of(context).showSnackBar(snackBar);
 
-      // fill our posts list with results and update state
-      if (res.statusCode == 200) {
-        setState(() {
-          this.currentPageNumber = 1; 
-          var resBody = json.decode(res.body);
-          this._posts = List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList());   
-        });
-      }
-      else {
-        throw Exception('Failed to refresh');
-      }
-    }catch (e) {
-      print(e.toString());
-    }finally {
-      await metric.stop();
-    }//
+    http.Response res = await HttpController.get(url);
 
+    // fill our posts list with results and update state
+    if (res.statusCode == 200) {
+      setState(() {
+        this.currentPageNumber = 1; 
+        var resBody = json.decode(res.body);
+        this._posts = List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList());   
+      });
+    }
+    else {
+      throw Exception('Failed to refresh');
+    }
   }
 
   void loadMorePosts(BuildContext context){

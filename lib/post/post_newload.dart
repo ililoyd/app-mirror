@@ -9,62 +9,30 @@ import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:firebase_performance/firebase_performance.dart';
+
 import '../components/post_body.dart';
+import '../utils/httpController.dart';
 
 //Author Future Fetcher
 Future<Post> fetchPostFromSlug(slug, context) async {
   var url = Uri.encodeFull("https://www.demivolee.com/wp-json/wp/v2/posts?slug=" + slug + "&_embed");
-  
-  final HttpMetric metric1 = FirebasePerformance.instance
-            .newHttpMetric(url, HttpMethod.Get);
-  
-  await metric1.start();
+  http.Response res = await HttpController.get(url); 
 
-  try{
-    http.Response res = await http.get(url, headers: {"Accept": "application/json"});
-    metric1
-      ..responsePayloadSize = res.contentLength
-      ..responseContentType = res.headers['Content-Type']
-      ..requestPayloadSize = res.contentLength
-      ..httpResponseCode = res.statusCode;
+  if (res.statusCode == 200) {
+    var decodedJson = json.decode(res.body);
+    var authorUrl = Uri.encodeFull(decodedJson[0]['_links']["author"][0]["href"].toString());
+    http.Response res2 = await HttpController.get(authorUrl); 
 
-    if (res.statusCode == 200) {
-      var decodedJson = json.decode(res.body);
-      var authorUrl = Uri.encodeFull(decodedJson[0]['_links']["author"][0]["href"].toString());
-      final HttpMetric metric2 = FirebasePerformance.instance
-            .newHttpMetric(authorUrl, HttpMethod.Get);
-      try{
-          res = await http.get(authorUrl, headers: {"Accept": "application/json"});
-          metric2
-            ..responsePayloadSize = res.contentLength
-            ..responseContentType = res.headers['Content-Type']
-            ..requestPayloadSize = res.contentLength
-            ..httpResponseCode = res.statusCode;
-          if (res.statusCode == 200) {
-            return Post.fromJson(decodedJson[0], context, Author.fromJson(json.decode(res.body)));
-          }
-          else {
-            throw Exception('Failed to load author');
-          }
-      }catch (e) {
-        print(e.toString());
-        return null;
-      }finally {
-        await metric2.stop();
-      }
+    if (res2.statusCode == 200) {
+      return Post.fromJson(decodedJson[0], context, Author.fromJson(json.decode(res2.body)));
     }
     else {
-      throw Exception('Failed to load post !');
+      throw Exception('Failed to load author');
     }
-  }catch (e) {
-    print(e.toString());
-    return null;
-  }finally {
-    await metric1.stop();
   }
-
-
+  else {
+    throw Exception('Failed to load post !');
+  }
 }
 
 class DVPostNewLoad extends DVPost {

@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import '../components/side_menu.dart';
 import '../components/post_list.dart';
 
+import 'package:firebase_admob/firebase_admob.dart';
+import '../config/ad_settings.dart';
+
 class DVHome extends StatefulWidget {
-  DVHome({Key key, this.queryAPI, this.appBarTitle}) : super(key: key);
+  DVHome({Key key, this.queryAPI, this.appBarTitle, this.isStartup = false}) : super(key: key);
 
   final String appBarTitle;
   final String queryAPI;
+  final bool isStartup;
 
   @override
   State<StatefulWidget> createState() => DVHomeState();
@@ -18,6 +22,8 @@ class DVHomeState extends State<DVHome> {
   final TextEditingController _filter = new TextEditingController();
   // Base URL for our wordpress API
   final String apiUrl = "https://demivolee.com/wp-json/wp/v2/";
+  //final InterstitialAd startupAd;
+  //bool wait = true;
 
   DVPostList bodyList;
 
@@ -32,24 +38,33 @@ class DVHomeState extends State<DVHome> {
 
   Widget _legacyAppBarTitle;
 
-  DVHomeState(){
-    _filter.addListener(() {
-      /*if (_filter.text.isEmpty) {
-        setState(() {
-          _searchText = "";
-        });
-      } else {
-        setState(() {
-          _searchText = _filter.text;
-        });
-      }*/
-    });
-  }
+  DVHomeState();
 
   @override
   void initState() {
+    if(widget.isStartup) this.startApp();
     super.initState();
   }
+
+  void startApp() async {
+
+    InterstitialAd myInterstitial = InterstitialAd(
+      // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+      // https://developers.google.com/admob/android/test-ads
+      // https://developers.google.com/admob/ios/test-ads
+      adUnitId: ADMOB_Inter1_ID,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        //if (event == MobileAdEvent.loaded || event == MobileAdEvent.failedToLoad) this.wait = false;
+        print("InterstitialAd event is $event");
+      },
+    );
+
+    myInterstitial
+      ..load()
+      ..show();
+  }
+
 
   void _searchPressed(BuildContext context) {
     setState(() {

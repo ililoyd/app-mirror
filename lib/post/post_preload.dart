@@ -4,6 +4,7 @@ import '../utils/launch.dart';
 import 'post.dart';
 import 'author.dart';
 import '../components/post_body.dart';
+//import '../page/disqus.dart';
 
 class DVPostPreloaded extends DVPost {
   final Post post;
@@ -68,9 +69,16 @@ class DVPostPreloaded extends DVPost {
         ]
      ),
      floatingActionButton: FloatingActionButton(
-       onPressed: () {launchURL(context, disqus); },
-        child: Image.asset("assets/disqus.png",height: 70, ),
-        backgroundColor: Colors.white10,
+      onPressed: () {launchURL(context, disqus); },
+      /*onPressed: () {
+        Navigator.push(
+          context, new MaterialPageRoute(
+            builder: (context) => new DVDisqus(disqusUri: disqus,),
+          ),
+        );
+       },*/
+      child: Image.asset("assets/disqus.png",height: 70, ),
+      backgroundColor: Colors.white10,
 
      ),
     );

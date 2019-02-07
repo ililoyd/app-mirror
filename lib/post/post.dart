@@ -4,7 +4,6 @@ import 'package:html_unescape/html_unescape.dart';
 // import 'package:html2md/html2md.dart' as html2md;
 // import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
-import 'package:firebase_performance/firebase_performance.dart';
 //import 'package:flutter_html/flutter_html.dart';
 import 'author.dart';
 
@@ -12,6 +11,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'post_newload.dart';
 import '../utils/launch.dart';
+import '../utils/httpController.dart';
 
 class DVPost extends StatelessWidget {
 
@@ -69,45 +69,24 @@ class Post {
 }
 
 Future<String> fetchCompressedURL(link) async {
-  link = Uri.encodeFull(link);
-  final HttpMetric metric = FirebasePerformance.instance
-            .newHttpMetric(link, HttpMethod.Get);
+  http.Response res = await HttpController.get(Uri.encodeFull(link)); 
     
-  await metric.start();
-  
-  
-
-  try{
-    http.Response res = await http.get(Uri.encodeFull(link), headers: {"Accept": "application/json"});
-    metric
-      ..responsePayloadSize = res.contentLength
-      ..responseContentType = res.headers['Content-Type']
-      ..requestPayloadSize = res.contentLength
-      ..httpResponseCode = res.statusCode;
-      
-    if (res.statusCode == 200) {
-      var jsonSizesList = json.decode(res.body)["media_details"]["sizes"] as Map; 
-      if(jsonSizesList.containsKey("medium_large")){
-        return jsonSizesList["medium_large"]["source_url"];
-      }
-      else if(jsonSizesList.containsKey("mh-magazine-content")){
-        return jsonSizesList["mh-magazine-content"]["source_url"];
-      }
-      else if(jsonSizesList.containsKey("medium")){
-        return jsonSizesList["medium"]["source_url"];
-      }else{
-        return jsonSizesList["full"]["source_url"];
-      }
+  if (res.statusCode == 200) {
+    var jsonSizesList = json.decode(res.body)["media_details"]["sizes"] as Map; 
+    if(jsonSizesList.containsKey("medium_large")){
+      return jsonSizesList["medium_large"]["source_url"];
     }
-    else {
-      throw Exception('Failed to load compressed media');
+    else if(jsonSizesList.containsKey("mh-magazine-content")){
+      return jsonSizesList["mh-magazine-content"]["source_url"];
+    }
+    else if(jsonSizesList.containsKey("medium")){
+      return jsonSizesList["medium"]["source_url"];
+    }else{
+      return jsonSizesList["full"]["source_url"];
     }
   }
-  catch (e) {
-    print(e.toString());
-    return null;
-  }finally {
-      await metric.stop();
+  else {
+    throw Exception('Failed to load compressed media');
   }
 }
 

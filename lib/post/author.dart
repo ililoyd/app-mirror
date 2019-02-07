@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
+import '../utils/httpController.dart';
 
-import 'package:firebase_performance/firebase_performance.dart';
 // Author Class
 class Author {
   final int id;
@@ -29,30 +29,12 @@ class Author {
 
 //Author Future Fetcher
 Future<Author> fetchAuthor(link) async {
-  final HttpMetric metric = FirebasePerformance.instance
-            .newHttpMetric(link, HttpMethod.Get);
-    
-  await metric.start();
-  try{
-    http.Response res = await http.get(Uri.encodeFull(link), headers: {"Accept": "application/json"});
-    metric
-      ..responsePayloadSize = res.contentLength
-      ..responseContentType = res.headers['Content-Type']
-      ..requestPayloadSize = res.contentLength
-      ..httpResponseCode = res.statusCode;
+  http.Response res = await HttpController.get(Uri.encodeFull(link));
 
-    if (res.statusCode == 200) {
-      return Author.fromJson(json.decode(res.body));
-    }
-    else {
-    throw Exception('Failed to load author');
-    }
+  if (res.statusCode == 200) {
+    return Author.fromJson(json.decode(res.body));
   }
-  catch (e) {
-      print(e.toString());
-      return null;
-  }finally {
-      await metric.stop();
+  else {
+  throw Exception('Failed to load author');
   }
-
 }

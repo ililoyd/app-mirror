@@ -39,8 +39,7 @@ class DVSideMenu extends StatelessWidget {
 
   Widget build(BuildContext context) {
     var urlProno = "https://pronos.demivolee.com";
-    var urlCompo = "http://compo.demivolee.com";
-    var urlCompoExpe = "https://outil-compo-master.herokuapp.com/index.html";
+    var urlCompo = "http://compo.pierrecormier.fr/";
 
     return new Drawer(
       child: ListView(
@@ -101,18 +100,14 @@ class DVSideMenu extends StatelessWidget {
               );*/
             },
           ),
-          ListTile(
+          /*ListTile(
             title: Text('Heroku composition ! \n(Experimental - chargement long)', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();
               launchURL(context, urlCompoExpe);
-              /*Navigator.push(
-                context, new MaterialPageRoute(
-                  builder: (context) => new DVCompoExp(),
-                ),              
-              );*/
+
             },
-          ),
+          ),*/
           new Divider(color: Colors.black,),
         ListTile(
           title: Text('Dossiers Demivolee', style: _menuTextStyle,),
