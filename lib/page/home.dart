@@ -47,12 +47,11 @@ class DVHomeState extends State<DVHome> {
   }
 
   void startApp() async {
-
     InterstitialAd myInterstitial = InterstitialAd(
       // Replace the testAdUnitId with an ad unit id from the AdMob dash.
       // https://developers.google.com/admob/android/test-ads
       // https://developers.google.com/admob/ios/test-ads
-      adUnitId: ADMOB_Inter1_ID,
+      adUnitId: ADMOB_InterStartup,
       targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
         //if (event == MobileAdEvent.loaded || event == MobileAdEvent.failedToLoad) this.wait = false;

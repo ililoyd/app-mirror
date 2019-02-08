@@ -9,6 +9,9 @@ import '../utils/launch.dart';
 
 
 class DVSideMenu extends StatelessWidget {
+  final interstitialAd;
+
+  DVSideMenu({this.interstitialAd});
 
   final _menuTextStyle = TextStyle(fontFamily: "Tw Cen MT", fontWeight: FontWeight.bold, fontSize: 18);
 
