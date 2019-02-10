@@ -16,6 +16,7 @@ class DVSideMenu extends StatelessWidget {
   final _menuTextStyle = TextStyle(fontFamily: "Tw Cen MT", fontWeight: FontWeight.bold, fontSize: 18);
 
   Widget build(BuildContext context) {
+    URLController.preloadAd();
     var urlProno = "https://pronos.demivolee.com";
     var urlCompo = "http://compo.pierrecormier.fr/";
 
@@ -55,14 +56,14 @@ class DVSideMenu extends StatelessWidget {
             title: Text('Participez aux pronos DV', style: _menuTextStyle,),
             onTap: () { 
               Navigator.of(context).pop();
-              launchURL(context, urlProno);
+              URLController.launchURL(urlProno);
             },
           ),
           ListTile(
             title: Text('Faites votre composition !', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();
-              launchURL(context, urlCompo);
+              URLController.launchURL(urlCompo);
             },
           ),
           new Divider(color: Colors.black,),

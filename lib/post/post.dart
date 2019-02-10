@@ -102,7 +102,7 @@ void onTapLink(String href, BuildContext context) {
     slug = listSplit[listSplit.length-1];
   }
   else{
-    launchURL(context, href);
+    URLController.launchURL(href);
     return;
   }
 

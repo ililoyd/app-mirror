@@ -9,6 +9,9 @@ import '../utils/httpController.dart';
 import '../post/post_preload.dart';
 
 import '../post/post.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+
+import '../config/ad_settings.dart';
 
 class DVPostList extends StatefulWidget{
   DVPostList({Key key,  @required this.requestUriInit}) : super(key: key);
@@ -25,6 +28,7 @@ class _DVPostListState extends State<DVPostList> {
   String storedRequest;
   int currentPageNumber = 1;
   bool flagReady = true;
+  final int adEveryEach = 5;
 
   bool notNull(Object o) => o != null;
 
@@ -134,60 +138,70 @@ class _DVPostListState extends State<DVPostList> {
             
             itemBuilder: (BuildContext context, int index) {
               return Column(
-                children: <Widget>[
-                  Card(
-                    child:InkWell(
-                      onTap: () { 
-                        Navigator.push(context, 
-                          new MaterialPageRoute(
-                            builder: (context) => new DVPostPreloaded(post: this._posts[index], ),
-                          ),
-                        ); 
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          FutureBuilder<String>(
-                            future : this._posts[index].getFeaturedMediaCompressedURL,
-                            builder: (context, snapshot){
-                              if (snapshot.hasData){ 
-                                return new FadeInImage.memoryNetwork(
-                                  placeholder: kTransparentImage,
-                                  image: this._posts[index].getFeaturedMediaCount == 0
-                                    ? ''
-                                    : snapshot.data
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
-                              } else{
-                                return Container(
-                                  child : Image.memory(kTransparentImage),
-                                  alignment: Alignment.center,
-                                );
-                              }
-                            }), 
-
-                          new Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: new ListTile(
-                              title: new Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0), 
-                                child: new Text((this._posts[index].getTitle))
-                              ),
-                              subtitle: new Text(
-                                this._posts[index].getExcerpt,
-                                textAlign: TextAlign.justify,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ), 
-                  )
-                ].where(notNull).toList(),
+                children: 
+                  (index % adEveryEach == 1) ? _buildCardWithAdMob(index) : _buildCard(index)
               );
             },
         ),
         ),
     );
+  }
+  _buildCardWithAdMob(index){
+    int admobIndex = (index ~/ adEveryEach) % ADMOB_BannerPostList.length ; 
+    return <Widget>[AdmobBanner(
+      adUnitId: ADMOB_BannerPostList[admobIndex] ,
+      adSize: AdmobBannerSize.FULL_BANNER
+    ),]..addAll(_buildCard(index));
+  }
+
+  List<Widget> _buildCard(index){
+    return <Widget>[ Card(
+      child:InkWell(
+        onTap: () { 
+          Navigator.push(context, 
+            new MaterialPageRoute(
+              builder: (context) => new DVPostPreloaded(post: this._posts[index], ),
+            ),
+          ); 
+        },
+        child: Column(
+          children: <Widget>[
+            FutureBuilder<String>(
+              future : this._posts[index].getFeaturedMediaCompressedURL,
+              builder: (context, snapshot){
+                if (snapshot.hasData){ 
+                  return new FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: this._posts[index].getFeaturedMediaCount == 0
+                      ? ''
+                      : snapshot.data
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                } else{
+                  return Container(
+                    child : Image.memory(kTransparentImage),
+                    alignment: Alignment.center,
+                  );
+                }
+              }), 
+
+            new Padding(
+              padding: EdgeInsets.all(10.0),
+              child: new ListTile(
+                title: new Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0), 
+                  child: new Text((this._posts[index].getTitle))
+                ),
+                subtitle: new Text(
+                  this._posts[index].getExcerpt,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ), 
+    )].where(notNull).toList();
   }
 }

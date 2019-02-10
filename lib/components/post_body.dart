@@ -11,6 +11,10 @@ import '../utils/launch.dart';
 
 import '../page/home.dart';
 
+import 'package:admob_flutter/admob_flutter.dart';
+
+import '../config/ad_settings.dart';
+
 class DVPostBody extends StatelessWidget {
   final int featuredMediaCount;
   final String featuredMediaURL;
@@ -33,7 +37,7 @@ class DVPostBody extends StatelessWidget {
       slug = listSplit[listSplit.length-1];
     }
     else{
-      launchURL(context, href);
+      URLController.launchURL(href);
       return;
     }
 
@@ -54,7 +58,16 @@ class DVPostBody extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       child: new ListView(
         children: <Widget>[
-    
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children :<Widget>[
+              AdmobBanner(
+                adUnitId: ADMOB_BannerPostBody,
+                adSize: AdmobBannerSize.FULL_BANNER
+              ),
+              new Divider(color: Colors.black,),
+            ]),
+            
           // Post Featured Image
           FutureBuilder<String>(
             future : this.featuredMediaCompressedURL,
@@ -80,7 +93,22 @@ class DVPostBody extends StatelessWidget {
             //child : new MarkdownBody(data: this.content, onTapLink: (link){onTapLink(link,context);} ),
           ),
 
-          new Divider(color: Colors.black,),
+          
+          (this.content.length >= 1500) 
+          ?
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children :<Widget>[
+              new Divider(color: Colors.black,),
+
+              new AdmobBanner(
+                adUnitId: ADMOB_BannerPostBody,
+                adSize: AdmobBannerSize.FULL_BANNER
+              ),
+              new Divider(color: Colors.black,)]
+           )
+          :
+            new Divider(color: Colors.black,),
 
           (this.author != null) 
           ?

@@ -45,8 +45,22 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            //setProperty("archivesBaseName", "demivolee-$versionName+$versionCode")
+        
+            applicationVariants.all { variant ->
+            
+                variant.outputs.each { output ->
+                    project.ext { appName = 'demivolee' }
+                    if (variant.buildType.name != "debug") {
+                        output.outputFileName = "demivolee-${variant.versionName}-${variant.versionCode}.apk"
+                    }
+                }
+            }
+            
+            //setProperty("archivesBaseName", "demivolee-${defaultConfig.versionName}+${defaultConfig.versionCode}")
             signingConfig signingConfigs.debug
+        }
+        debug{
+
         }
     }
 }

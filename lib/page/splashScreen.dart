@@ -75,7 +75,7 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
                         "Bienvenue sur Demivolee",
                         style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          //fontWeight: FontWeight.bold,
                           fontSize: 24.0),
                       )
                     ],
@@ -87,7 +87,7 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),),
                   ],
                 ),
               )

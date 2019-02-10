@@ -13,7 +13,7 @@ class DVPostPreloaded extends DVPost {
 
   @override
   Widget build(BuildContext context) {
-
+    URLController.preloadAd();
     var disqusUuid = post.getId.toString() + " https://www.demivolee.com/?p="+ post.getId.toString();
     var disqus = "http://37.187.112.36/disqus_test.html?t_id=" + disqusUuid;
 
@@ -69,7 +69,7 @@ class DVPostPreloaded extends DVPost {
         ]
      ),
      floatingActionButton: FloatingActionButton(
-      onPressed: () {launchURL(context, disqus); },
+      onPressed: () {URLController.launchURL(disqus); },
       /*onPressed: () {
         Navigator.push(
           context, new MaterialPageRoute(

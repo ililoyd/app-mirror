@@ -1,13 +1,16 @@
 //import 'package:firebase_admob/firebase_admob.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 
-const String ADMOB_APPID= "ca-app-pub-7699075207952561~8874484485";
-const String ADMOB_InterStartup  = 'ca-app-pub-7699075207952561/9899667837';
+//const String ADMOB_APPID= "ca-app-pub-7699075207952561~8874484485";
+//const String ADMOB_InterStartup  = 'ca-app-pub-7699075207952561/9899667837';
 
-//const String ADMOB_APPID= "ca-app-pub-2822886786382553~5046850306";
-//const String ADMOB_InterStartup = 'ca-app-pub-2822886786382553/3206045208';
+const String ADMOB_APPID= "ca-app-pub-2822886786382553~5046850306";
+const String ADMOB_InterStartup = 'ca-app-pub-2822886786382553/3206045208';
 const String ADMOB_BannerPostBody = 'ca-app-pub-2822886786382553/6598495306';
-const String ADMOB_BannerPostList = 'ca-app-pub-2822886786382553/9264063382';
+const List<String> ADMOB_BannerPostList = [ 'ca-app-pub-2822886786382553/9264063382', 
+                                            'ca-app-pub-2822886786382553/7752838459',
+                                            'ca-app-pub-2822886786382553/4408366102',
+                                            'ca-app-pub-2822886786382553/1670522122'];
 const String ADMOB_InterURLLaunch = 'ca-app-pub-2822886786382553/8813595103';
 
 
