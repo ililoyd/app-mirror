@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:async';
+//import 'package:webview_flutter/webview_flutter.dart';
+//import 'dart:async';
 
 
 class DVDisqus extends StatefulWidget {
@@ -12,7 +12,7 @@ class DVDisqus extends StatefulWidget {
 }
 
 class DVDisqusState extends State<DVDisqus> {
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
+  //final Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +23,15 @@ class DVDisqusState extends State<DVDisqus> {
         title: const Text('Réagissez à l\'article'),
       ),
       
-      body:
+      body: Container()
       
-      WebView(
+      /*WebView(
         initialUrl : widget.disqusUri,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
           _controller.complete(webViewController);
         },
-      ),
+      ),*/
     );
 
   }

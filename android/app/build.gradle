@@ -45,6 +45,7 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+            //setProperty("archivesBaseName", "demivolee-$versionName+$versionCode")
             signingConfig signingConfigs.debug
         }
     }
@@ -61,3 +62,9 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+configurations.all { 
+    resolutionStrategy { 
+        force 'com.android.support:support-v4:27.1.1' 
+        force 'com.google.android.gms:play-services-ads:17.0.0' 
+    } 
+}
