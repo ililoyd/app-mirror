@@ -62,8 +62,8 @@ class Post {
       author : author,
       authorLink : json['_links']["author"][0]["href"],
       featuredMediaCount : json["featured_media"],
-      featuredMediaURL: json["_embedded"]["wp:featuredmedia"][0]["source_url"],
-      featuredMediaCompressedURL: fetchCompressedURL(json["_links"]["wp:featuredmedia"][0]["href"]),
+      featuredMediaURL: (json["featured_media"] == 0) ? null : json["_embedded"]["wp:featuredmedia"][0]["source_url"],
+      featuredMediaCompressedURL: (json["featured_media"] == 0) ? null : fetchCompressedURL(json["_links"]["wp:featuredmedia"][0]["href"]),
     );
   }
 }

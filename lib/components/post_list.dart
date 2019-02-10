@@ -13,6 +13,9 @@ import 'package:admob_flutter/admob_flutter.dart';
 
 import '../config/ad_settings.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+
+
 class DVPostList extends StatefulWidget{
   DVPostList({Key key,  @required this.requestUriInit}) : super(key: key);
   final String requestUriInit;
@@ -150,7 +153,7 @@ class _DVPostListState extends State<DVPostList> {
     int admobIndex = (index ~/ adEveryEach) % ADMOB_BannerPostList.length ; 
     return <Widget>[AdmobBanner(
       adUnitId: ADMOB_BannerPostList[admobIndex] ,
-      adSize: AdmobBannerSize.FULL_BANNER
+      adSize: (admobIndex == 1) ? AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.LARGE_BANNER
     ),]..addAll(_buildCard(index));
   }
 
@@ -170,12 +173,18 @@ class _DVPostListState extends State<DVPostList> {
               future : this._posts[index].getFeaturedMediaCompressedURL,
               builder: (context, snapshot){
                 if (snapshot.hasData){ 
-                  return new FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    image: this._posts[index].getFeaturedMediaCount == 0
-                      ? ''
-                      : snapshot.data
-                  );
+                  if (this._posts[index].getFeaturedMediaCount == 0) {
+                    return Container(
+                      child : Image.memory(kTransparentImage),
+                      alignment: Alignment.center,
+                    );
+                  }else{
+                    return new CachedNetworkImage(
+                      placeholder: Image.memory(kTransparentImage),
+                      imageUrl: snapshot.data,
+                      errorWidget: new Icon(Icons.error),
+                    );
+                  }
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 } else{

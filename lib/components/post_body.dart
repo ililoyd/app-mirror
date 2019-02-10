@@ -15,6 +15,8 @@ import 'package:admob_flutter/admob_flutter.dart';
 
 import '../config/ad_settings.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 class DVPostBody extends StatelessWidget {
   final int featuredMediaCount;
   final String featuredMediaURL;
@@ -59,26 +61,34 @@ class DVPostBody extends StatelessWidget {
       child: new ListView(
         children: <Widget>[
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children :<Widget>[
               AdmobBanner(
                 adUnitId: ADMOB_BannerPostBody,
-                adSize: AdmobBannerSize.FULL_BANNER
+                adSize: AdmobBannerSize.BANNER
               ),
               new Divider(color: Colors.black,),
             ]),
-            
+
           // Post Featured Image
           FutureBuilder<String>(
             future : this.featuredMediaCompressedURL,
             builder: (context, snapshot){
               if (snapshot.hasData){ 
-                return new FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: this.featuredMediaCount == 0
-                    ? ''
-                    : snapshot.data
-                );
+                
+                if (this.featuredMediaCount == 0) {
+                  return Container(
+                    child : Image.memory(kTransparentImage),
+                    alignment: Alignment.center,
+                  );
+                }else{
+                  return new CachedNetworkImage(
+                    placeholder: Image.memory(kTransparentImage),
+                    imageUrl: snapshot.data,
+                    errorWidget: new Icon(Icons.error),
+                  );
+                }
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               } else{
@@ -94,16 +104,17 @@ class DVPostBody extends StatelessWidget {
           ),
 
           
-          (this.content.length >= 1500) 
+          (this.content.length >= 4000) 
           ?
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children :<Widget>[
               new Divider(color: Colors.black,),
 
               new AdmobBanner(
                 adUnitId: ADMOB_BannerPostBody,
-                adSize: AdmobBannerSize.FULL_BANNER
+                adSize: AdmobBannerSize.LARGE_BANNER
               ),
               new Divider(color: Colors.black,)]
            )
