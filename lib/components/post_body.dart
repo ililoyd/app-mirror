@@ -65,7 +65,7 @@ class DVPostBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children :<Widget>[
               AdmobBanner(
-                adUnitId: ADMOB_BannerPostBody,
+                adUnitId: ADMOB_BannerPostBody[0],
                 adSize: AdmobBannerSize.BANNER
               ),
               new Divider(color: Colors.black,),
@@ -104,7 +104,7 @@ class DVPostBody extends StatelessWidget {
           ),
 
           
-          (this.content.length >= 4000) 
+          (this.content.length >= 6000) 
           ?
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,7 +113,7 @@ class DVPostBody extends StatelessWidget {
               new Divider(color: Colors.black,),
 
               new AdmobBanner(
-                adUnitId: ADMOB_BannerPostBody,
+                adUnitId: ADMOB_BannerPostBody[1],
                 adSize: AdmobBannerSize.LARGE_BANNER
               ),
               new Divider(color: Colors.black,)]

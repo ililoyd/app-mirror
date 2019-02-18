@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import '../config/ad_settings.dart';
+import 'dart:async';
 
 class URLController{
   static AdmobInterstitial interstitialAd;
   static String linkAd;
+  static bool boolDisplayTimer = true;
   //static BuildContext staticContext;
 
   static void preloadAd(){
@@ -17,7 +19,10 @@ class URLController{
           print("Interstitial Loaded !");
         }
         if (event == AdmobAdEvent.closed){
+          URLController.boolDisplayTimer = false;
           print("Interstitial closed");
+          new Timer(Duration(minutes: 15), () => URLController.boolDisplayTimer = true);
+          interstitialAd.load();
           _launchURL(linkAd);
         }
         if (event == AdmobAdEvent.failedToLoad) {
@@ -33,7 +38,7 @@ class URLController{
     //staticContext = context;
     
     if( interstitialAd != null){
-      if(await interstitialAd.isLoaded){
+      if(await interstitialAd.isLoaded && boolDisplayTimer){
         print("IsLoaded");
         interstitialAd.show();
       }else{

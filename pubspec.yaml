@@ -2,7 +2,7 @@ name: demivolee
 description: Demivolee companion application. Football news and comments.
 
 author : betse <anon127nobody@gmail.com>
-homepage: demivolee.com
+homepage: www.demivolee.com
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -10,7 +10,7 @@ homepage: demivolee.com
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.4.5+29
+version: 0.4.8+36
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -109,3 +109,7 @@ flutter:
     - family : Tw Cen MT
       fonts : 
         - asset : fonts/Tw Cen MT.ttf
+
+    - family : Bebas Neue
+      fonts :
+        - asset : fonts/BebasNeue-Regular.ttf

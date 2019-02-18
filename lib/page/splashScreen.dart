@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../config/ad_settings.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'home.dart';
+import '../utils/launch.dart';
+import 'dart:async';
 
 class DVSplashScreen extends StatefulWidget {
   DVSplashScreen({Key key})  : super(key: key);
@@ -27,6 +29,8 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
         if (event == AdmobAdEvent.loaded){ 
           print("Loaded !");
           this.homeInterstitialAd.show();
+          URLController.boolDisplayTimer = false;
+          new Timer(Duration(minutes: 15), () => URLController.boolDisplayTimer = true);
           Navigator.pushReplacement(
             context, new MaterialPageRoute(
               builder: (context) => new DVHome(),
@@ -68,16 +72,18 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                      ),
                       Text(
                         "Bienvenue sur Demivolee",
                         style: TextStyle(
+                          fontFamily: "Bebas Neue",
                           color: Colors.white,
                           //fontWeight: FontWeight.bold,
-                          fontSize: 24.0),
-                      )
+                          fontSize: 30.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                      ),
+                      Image.asset("assets/Splash-fond.png", height: 170,),
                     ],
                   ),
                 ),

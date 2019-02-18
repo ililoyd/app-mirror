@@ -15,7 +15,7 @@ class DVPostPreloaded extends DVPost {
   Widget build(BuildContext context) {
     URLController.preloadAd();
     var disqusUuid = post.getId.toString() + " https://www.demivolee.com/?p="+ post.getId.toString();
-    var disqus = "http://37.187.112.36/disqus_test.html?t_id=" + disqusUuid;
+    var disqus = "https://www.datandev.com/disqus_test.html?t_id=" + disqusUuid;
 
     var link = post.getAuthorLink;
     
