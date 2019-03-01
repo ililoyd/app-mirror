@@ -156,9 +156,9 @@ class _DVPostListState extends State<DVPostList> {
                     );
                   }else{
                     return new CachedNetworkImage(
-                      placeholder: Image.memory(kTransparentImage),
+                      placeholder: (context, url) => new  Image.memory(kTransparentImage),
                       imageUrl: snapshot.data,
-                      errorWidget: new Icon(Icons.error),
+                      errorWidget: (context, url, error) => new Icon(Icons.error),
                     );
                   }
                 } else if (snapshot.hasError) {

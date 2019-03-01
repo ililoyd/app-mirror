@@ -84,9 +84,9 @@ class DVPostBody extends StatelessWidget {
                   );
                 }else{
                   return new CachedNetworkImage(
-                    placeholder: Image.memory(kTransparentImage),
+                    placeholder: (context, url) => Image.memory(kTransparentImage),
                     imageUrl: snapshot.data,
-                    errorWidget: new Icon(Icons.error),
+                    errorWidget: (context, url, error) => new Icon(Icons.error),
                   );
                 }
               } else if (snapshot.hasError) {
