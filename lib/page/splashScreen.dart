@@ -83,7 +83,7 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
                       Padding(
                         padding: EdgeInsets.only(top: 10.0),
                       ),
-                      Image.asset("assets/Splash-fond.png", height: 170,),
+                      Image.asset("assets/Splash-fond.png", width: 270,),
                     ],
                   ),
                 ),

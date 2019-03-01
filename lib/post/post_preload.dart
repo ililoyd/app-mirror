@@ -4,6 +4,7 @@ import '../utils/launch.dart';
 import 'post.dart';
 import 'author.dart';
 import '../components/post_body.dart';
+import 'package:demivolee/controllers/authorController.dart';
 //import '../page/disqus.dart';
 
 class DVPostPreloaded extends DVPost {
@@ -28,7 +29,7 @@ class DVPostPreloaded extends DVPost {
       body: new Stack(
         children : [
           FutureBuilder<Author>(
-            future : fetchAuthor(link),
+            future : AuthorController.fetchAuthor(link),
             builder: (context, snapshot){
               if (snapshot.hasData){ 
                 return new DVPostBody(

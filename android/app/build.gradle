@@ -63,17 +63,20 @@ android {
                     project.ext { appName = 'demivolee' }
                     if (variant.buildType.name != "debug") {
                         output.outputFileName = "demivolee-${variant.versionName}-${variant.versionCode}.apk"
+                        //output.outputFileName = "app-release.apk"
                     }
                 }
             }
             
             //setProperty("archivesBaseName", "demivolee-${defaultConfig.versionName}+${defaultConfig.versionCode}")
-            /*minifyEnabled true
+            debuggable true
+            minifyEnabled true
             useProguard true
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' */
-            //signingConfig signingConfigs.release
-            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' 
+            signingConfig signingConfigs.release
+
+            //signingConfig signingConfigs.debug
         }
         debug{
 

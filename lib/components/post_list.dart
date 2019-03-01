@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../utils/httpController.dart';
 import '../post/post_preload.dart';
 
 import '../post/post.dart';
@@ -14,6 +11,7 @@ import 'package:admob_flutter/admob_flutter.dart';
 import '../config/ad_settings.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:demivolee/controllers/postController.dart';
 
 
 class DVPostList extends StatefulWidget{
@@ -53,31 +51,16 @@ class _DVPostListState extends State<DVPostList> {
         );
       Scaffold.of(context).showSnackBar(snackBar);
     }
+    List<Post> listPosts = await PostController.fetchPosts(requestUri);
 
-    requestUri = Uri.encodeFull(requestUri);
-    http.Response res = await HttpController.get(requestUri);
-
-    if (res.statusCode == 200) {
-      setState(() {      
-        var resBody = json.decode(res.body);
-        if(!(resBody is Map)){
-          if(this._posts != null){
-            this._posts.addAll(List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList()));
-          }
-          else{
-            this._posts = List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList());
-          }
-        }
-      });
-    }
-    else {
-      if(res.statusCode == 400){
-        print("Max Range");
+    setState(() {      
+      if(this._posts != null){
+        this._posts.addAll(listPosts);
       }
       else{
-        throw Exception('Failed to load Post');
-      }
-    }
+        this._posts = listPosts;
+      } 
+    });
   }
 
   Future<void> _refreshList(BuildContext context) async {
@@ -89,20 +72,13 @@ class _DVPostListState extends State<DVPostList> {
       backgroundColor: Color(0xFF323232).withOpacity(0.8),
       );
     Scaffold.of(context).showSnackBar(snackBar);
+    List<Post> listPosts = await PostController.fetchPosts(url);
 
-    http.Response res = await HttpController.get(url);
+    setState(() {
+      this.currentPageNumber = 1; 
+      this._posts = listPosts;   
+    });
 
-    // fill our posts list with results and update state
-    if (res.statusCode == 200) {
-      setState(() {
-        this.currentPageNumber = 1; 
-        var resBody = json.decode(res.body);
-        this._posts = List<Post>.from(resBody.map((x) => Post.fromJson(x, context)).toList());   
-      });
-    }
-    else {
-      throw Exception('Failed to refresh');
-    }
   }
 
   void loadMorePosts(BuildContext context){
