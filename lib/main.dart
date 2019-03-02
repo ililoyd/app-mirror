@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+//import 'package:demivolee/controllers/cacheController.dart';
 
 
 import 'config/ad_settings.dart';
@@ -13,7 +14,7 @@ FirebaseAnalytics analytics = FirebaseAnalytics();
 void main() {
   Admob.initialize(ADMOB_APPID);
   FirebaseAdMob.instance.initialize(appId: ADMOB_APPID);
-
+  //CustomCacheManager();
   
     runApp(MaterialApp(
         theme: new ThemeData(

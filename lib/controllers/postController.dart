@@ -1,11 +1,13 @@
 import 'package:demivolee/post/post.dart';
 import 'package:demivolee/post/author.dart';
 import 'package:demivolee/controllers/httpController.dart';
+//import 'package:demivolee/controllers/cacheController.dart';
 
 import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
+
 class PostController {
 
   static Future<Post> fetchPostFromSlug(slug, context) async {
@@ -33,10 +35,12 @@ class PostController {
   static Future<List<Post>> fetchPosts(requestUri) async {
     requestUri = Uri.encodeFull(requestUri);
     http.Response res = await HttpController.get(requestUri);
+    //Stream res = CustomCacheManager().getFile(requestUri);
 
     /*if(res == null){
       return;
     }*/
+    
     if (res.statusCode == 200) {
       var resBody = json.decode(res.body);
       if(!(resBody is Map)){
@@ -52,7 +56,13 @@ class PostController {
       else{
         throw Exception('Failed to load Post');
       }
+  }/*
+    Encoding encoding;
+    var resBody = json.decode(encoding.decode(res.));
+    if(!(resBody is Map)){
+      return List<Post>.from(resBody.map((x) => Post.fromJson(x)).toList());
     }
+    return null;*/
   }
 
   static Future<String> fetchCompressedURL(link) async {
