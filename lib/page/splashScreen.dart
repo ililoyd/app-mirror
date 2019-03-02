@@ -6,6 +6,8 @@ import 'home.dart';
 import '../utils/launch.dart';
 import 'dart:async';
 
+import 'package:firebase_admob/firebase_admob.dart';
+
 class DVSplashScreen extends StatefulWidget {
   DVSplashScreen({Key key})  : super(key: key);
 
@@ -14,18 +16,16 @@ class DVSplashScreen extends StatefulWidget {
 }
 class DVStateSplashScreen extends State<DVSplashScreen> {
   AdmobInterstitial homeInterstitialAd;
+  InterstitialAd homeInterstitialAd2;
 
   @override
   void initState() {
     startApp(context);
     super.initState();
   }
-  
-  void startApp(BuildContext context) async {
-    this.homeInterstitialAd = AdmobInterstitial(
-      adUnitId: ADMOB_InterStartup,
-      targetInfo: targetingInfo,
-      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+
+  void _listener(AdmobAdEvent event, Map<String, dynamic> args){
+
         if (event == AdmobAdEvent.loaded){ 
           print("Loaded !");
           this.homeInterstitialAd.show();
@@ -49,9 +49,53 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
             ),              
           );
         }
+      
+  }
+
+  void _listener2(MobileAdEvent event){
+
+      if (event == MobileAdEvent.loaded){ 
+        print("Loaded !");
+        this.homeInterstitialAd2.show();
+        URLController.boolDisplayTimer = false;
+        new Timer(Duration(minutes: 15), () => URLController.boolDisplayTimer = true);
+        Navigator.pushReplacement(
+          context, new MaterialPageRoute(
+            builder: (context) => new DVHome(),
+          ),              
+        );
       }
+      if (event == MobileAdEvent.closed){
+        print("Ad Closed");
+        this.homeInterstitialAd2.dispose();
+      }
+      if (event == MobileAdEvent.failedToLoad) {
+        Navigator.pushReplacement(
+          context, new MaterialPageRoute(
+            builder: (context) => new DVHome(),
+          ),              
+        );
+      }
+    
+}
+  
+  void startApp(BuildContext context) async {
+    this.homeInterstitialAd = AdmobInterstitial(
+      adUnitId: ADMOB_InterStartup,
+      targetInfo: targetingInfo,
+      listener: this._listener
     );
-    this.homeInterstitialAd.load();
+
+    this.homeInterstitialAd2 = InterstitialAd(
+      adUnitId: ADMOB_InterStartup,
+      targetingInfo: targetingInfo2,
+      listener: this._listener2
+    );
+
+    
+
+    this.homeInterstitialAd2.load();
+
   }
 
  

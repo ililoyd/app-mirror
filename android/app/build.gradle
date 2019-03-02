@@ -68,7 +68,6 @@ android {
             }
             
             //setProperty("archivesBaseName", "demivolee-${defaultConfig.versionName}+${defaultConfig.versionCode}")
-            debuggable true
             minifyEnabled true
             useProguard true
 
