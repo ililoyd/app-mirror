@@ -14,7 +14,9 @@ const List<String> ADMOB_BannerPostList = [ 'ca-app-pub-2822886786382553/9264063
                                             'ca-app-pub-2822886786382553/1670522122'];
 const String ADMOB_InterURLLaunch = 'ca-app-pub-2822886786382553/8813595103';
 
-
+/*const String ADMOB_APPID= "ca-app-pub-3940256099942544~3347511713";
+const String ADMOB_InterStartup = "ca-app-pub-3940256099942544/1033173712";
+const List<String>  ADMOB_BannerPostBody = ['ca-app-pub-3940256099942544/6300978111', 'ca-app-pub-3940256099942544/6300978111']; */
 
 /*MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
   keywords: <String>['demivolee', 'demivolee.com', 'champions league', 'football', 
