@@ -138,7 +138,12 @@ class _DVPostListState extends State<DVPostList> {
 
   List<Widget> _buildCard(index){
     return <Widget>[ Card(
-      child:InkWell(
+      child: _buildTile(index)
+    )].where(notNull).toList();
+  }
+
+  Widget _buildTile(index){
+    return InkWell(
         onTap: () { 
           Navigator.push(context, 
             new MaterialPageRoute(
@@ -148,7 +153,28 @@ class _DVPostListState extends State<DVPostList> {
         },
         child: Column(
           children: <Widget>[
-            FutureBuilder<String>(
+            _buildImage(index), 
+
+            new Padding(
+              padding: EdgeInsets.all(10.0),
+              child: new ListTile(
+                title: new Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0), 
+                  child: new Text((this._posts[index].getTitle))
+                ),
+                subtitle: new Text(
+                  this._posts[index].getExcerpt,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+  }
+
+  _buildImage(index ){
+    return FutureBuilder<String>(
               future : this._posts[index].getFeaturedMediaCompressedURL,
               builder: (context, snapshot){
                 if (snapshot.hasData){ 
@@ -172,24 +198,6 @@ class _DVPostListState extends State<DVPostList> {
                     alignment: Alignment.center,
                   );
                 }
-              }), 
-
-            new Padding(
-              padding: EdgeInsets.all(10.0),
-              child: new ListTile(
-                title: new Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0), 
-                  child: new Text((this._posts[index].getTitle))
-                ),
-                subtitle: new Text(
-                  this._posts[index].getExcerpt,
-                  textAlign: TextAlign.justify,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ), 
-    )].where(notNull).toList();
+              });
   }
 }

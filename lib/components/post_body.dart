@@ -51,7 +51,7 @@ class DVPostBody extends StatelessWidget {
     return;
   }
 
-  
+
 
   DVPostBody({Key key, this.featuredMediaCount, this.featuredMediaURL, this.featuredMediaCompressedURL, this.content, this.author, this.disqus = false}) : super(key: key);
 

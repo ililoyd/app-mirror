@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:html_unescape/html_unescape.dart';
 import 'author.dart';
-
-import 'dart:async';
-
-import 'post_newload.dart';
-import '../utils/launch.dart';
-
 import 'package:demivolee/controllers/postController.dart';
 
 class DVPost extends StatelessWidget {
@@ -54,8 +47,6 @@ class Post {
       title: unescape.convert(json["title"]["rendered"]),
       excerpt: unescape.convert(json["excerpt"]["rendered"].replaceAll(new RegExp(r'<[^>]*>'), '')),
       content : json["content"]["rendered"],
-      //content: new MarkdownBody(data: html2md.convert(json["content"]["rendered"]), onTapLink: (link){onTapLink(link, context);} ),
-      //content: new Html(data: json["content"]["rendered"], useRichText: true, onLinkTap: (link){onTapLink(link, context);}),
       author : author,
       authorLink : json['_links']["author"][0]["href"],
       featuredMediaCount : json["featured_media"],
@@ -63,30 +54,4 @@ class Post {
       featuredMediaCompressedURL: (json["featured_media"] == 0) ? null : PostController.fetchCompressedURL(json["_links"]["wp:featuredmedia"][0]["href"]),
     );
   }
-}
-
-
-
-void onTapLink(String href, BuildContext context) {
-  var listSplit = href.split("/");
-  var slug;
-  var regEx1 = RegExp(r"http[s]?:\/\/www\.demivolee\.com\/[\d]{4}\/\d{2}\/\d{2}\/[\w-]*\/");
-  var regEx2 = RegExp(r"http[s]?:\/\/www\.demivolee\.com\/[\d]{4}\/\d{2}\/\d{2}\/[\w-]*\$");
-  if (regEx1.hasMatch(href)) {
-    slug = listSplit[listSplit.length-2];
-  }
-  else if (regEx2.hasMatch(href)) {
-    slug = listSplit[listSplit.length-1];
-  }
-  else{
-    URLController.launchURL(href);
-    return;
-  }
-
-  Navigator.push(
-    context, new MaterialPageRoute(
-    builder: (context) => new DVPostNewLoad(slug : slug),
-    ),
-  ); 
-  return;
 }

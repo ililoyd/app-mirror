@@ -4,12 +4,11 @@ import 'package:http/http.dart' as http;
 class HttpController {
 
   static Future<http.Response> get(requestUrl, [Map<String, String> headers = const {"Accept": "application/json"}]) async {
-    final HttpMetric metric = FirebasePerformance.instance
-            .newHttpMetric(requestUrl, HttpMethod.Get);
+    final HttpMetric metric = FirebasePerformance.instance.newHttpMetric(requestUrl, HttpMethod.Get);
     
     await metric.start();
     try{
-      http.Response res = await http.get(requestUrl, headers: headers);
+      http.Response res = await _get(requestUrl, headers);
       metric
         ..responsePayloadSize = res.contentLength
         ..responseContentType = res.headers['Content-Type']
@@ -22,5 +21,9 @@ class HttpController {
       await metric.stop();
     }
     return null;
+  }
+
+  static _get(requestUrl, headers) async{
+    return await http.get(requestUrl, headers: headers);
   }
 }
