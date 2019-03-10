@@ -132,13 +132,13 @@ class _DVPostListState extends State<DVPostList> {
               );
     }
     return GridView.builder(
-              shrinkWrap: true,
               itemCount: this._posts == null ? 0 : this._posts.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.9),
+              padding: EdgeInsets.all(4.0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.2),
               itemBuilder: (BuildContext context, int index) {
                 return Column(
                   children: 
-                    (index % adEveryEach == 1) ? _buildCardWithAdMob(index) : _buildCard(index)
+                     _buildGrid(index)
                 );
               },
             );
@@ -152,14 +152,13 @@ class _DVPostListState extends State<DVPostList> {
     ),]..addAll(_buildCard(index));*/
   }
 
-  List<Widget> _buildCard(index){
+  List<Widget> _buildGrid(index){
     return <Widget>[ Card(
-      child: _buildTile(index)
-    )].where(notNull).toList();
-  }
-
-  Widget _buildTile(index){
-    return InkWell(
+      elevation: 1.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      child: InkWell(
         onTap: () { 
           Navigator.push(context, 
             new MaterialPageRoute(
@@ -167,53 +166,86 @@ class _DVPostListState extends State<DVPostList> {
             ),
           ); 
         },
-        child: Column(
-          children: <Widget>[
-            _buildImage(index), 
+        child: _buildGridTile(index),
+      ),
+    )].where(notNull).toList();
+  }
 
-            new Padding(
-              padding: EdgeInsets.all(10.0),
-              child: new ListTile(
-                title: new Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0), 
-                  child: new Text((this._posts[index].getTitle))
-                ),
-                subtitle: new Text(
-                  this._posts[index].getExcerpt,
-                  textAlign: TextAlign.justify,
-                ),
-              ),
+  List<Widget> _buildCard(index){
+    return <Widget>[ Card( 
+      child: InkWell(
+        onTap: () { 
+          Navigator.push(context, 
+            new MaterialPageRoute(
+              builder: (context) => new DVPostPreloaded(post: this._posts[index], ),
             ),
-          ],
+          ); 
+        },
+        child: _buildTile(index)
+      ),
+    )].where(notNull).toList();
+  }
+
+  _buildGridTile(index){
+    return Column(
+      children: <Widget>[
+        _buildImage(index), 
+        new ListTile(
+            title: new Padding(
+              padding: EdgeInsets.symmetric(vertical: 1.0), 
+              child: new Text((this._posts[index].getTitle), style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+          ),
+      ],
+    );
+  }
+  Widget _buildTile(index){
+    return Column(
+      children: <Widget>[
+        _buildImage(index), 
+
+        new Padding(
+          padding: EdgeInsets.all(10.0),
+          child: new ListTile(
+            title: new Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0), 
+              child: new Text((this._posts[index].getTitle))
+            ),
+            subtitle: new Text(
+              this._posts[index].getExcerpt,
+              textAlign: TextAlign.justify,
+            ),
+          ),
         ),
-      );
+      ],
+    );
   }
 
   _buildImage(index ){
     return FutureBuilder<String>(
-              future : this._posts[index].getFeaturedMediaCompressedURL,
-              builder: (context, snapshot){
-                if (snapshot.hasData){ 
-                  if (this._posts[index].getFeaturedMediaCount == 0) {
-                    return Container(
-                      child : Image.memory(kTransparentImage),
-                      alignment: Alignment.center,
-                    );
-                  }else{
-                    return new CachedNetworkImage(
-                      placeholder: (context, url) => new  Image.memory(kTransparentImage),
-                      imageUrl: snapshot.data,
-                      errorWidget: (context, url, error) => new Icon(Icons.error),
-                    );
-                  }
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                } else{
-                  return Container(
-                    child : Image.memory(kTransparentImage),
-                    alignment: Alignment.center,
-                  );
-                }
-              });
+      future : this._posts[index].getFeaturedMediaCompressedURL,
+      builder: (context, snapshot){
+        if (snapshot.hasData){ 
+          if (this._posts[index].getFeaturedMediaCount == 0) {
+            return Container(
+              child : Image.memory(kTransparentImage),
+              alignment: Alignment.center,
+            );
+          }else{
+            return new CachedNetworkImage(
+              placeholder: (context, url) => new  Image.memory(kTransparentImage),
+              imageUrl: snapshot.data,
+              errorWidget: (context, url, error) => new Icon(Icons.error),
+            );
+          }
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        } else{
+          return Container(
+            child : Image.memory(kTransparentImage),
+            alignment: Alignment.center,
+          );
+        }
+      });
   }
 }
