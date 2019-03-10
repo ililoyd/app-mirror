@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:html_unescape/html_unescape.dart';
-// import 'package:html2md/html2md.dart' as html2md;
-// import 'package:flutter_markdown/flutter_markdown.dart';
-//import 'package:flutter_html/flutter_html.dart';
 import 'author.dart';
 
 import 'dart:async';
