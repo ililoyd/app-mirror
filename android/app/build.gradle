@@ -67,7 +67,7 @@ android {
                 }
             }
             
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
             
             //setProperty("archivesBaseName", "demivolee-${defaultConfig.versionName}+${defaultConfig.versionCode}")
             //debuggable true
@@ -75,7 +75,7 @@ android {
             useProguard true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' 
-            //signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
         debug{
 
