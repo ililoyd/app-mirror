@@ -112,32 +112,48 @@ class _DVPostListState extends State<DVPostList> {
             }
           },
           child: 
-            ListView.builder(
+            _listBuilder(context),
+        ),
+    );
+  }
+
+  _listBuilder(BuildContext context){
+
+    if(MediaQuery.of(context).size.width <= 600){
+      return ListView.builder(
+                shrinkWrap: true,
+                itemCount: this._posts == null ? 0 : this._posts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: 
+                      (index % adEveryEach == 1) ? _buildCardWithAdMob(index) : _buildCard(index)
+                  );
+                },
+              );
+    }
+    return GridView.builder(
+              shrinkWrap: true,
               itemCount: this._posts == null ? 0 : this._posts.length,
-              
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.9),
               itemBuilder: (BuildContext context, int index) {
                 return Column(
                   children: 
                     (index % adEveryEach == 1) ? _buildCardWithAdMob(index) : _buildCard(index)
                 );
               },
-            ),
-          
-          
-        ),
-    );
+            );
   }
   _buildCardWithAdMob(index){
     int admobIndex = (index ~/ adEveryEach) % ADMOB_BannerPostList.length ; 
-    //return _buildCard(index);
-    return <Widget>[AdmobBanner(
+    return _buildCard(index);
+    /*return <Widget>[AdmobBanner(
       adUnitId: ADMOB_BannerPostList[admobIndex] ,
       adSize: (admobIndex == 1) ? AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.LARGE_BANNER
-    ),]..addAll(_buildCard(index));
+    ),]..addAll(_buildCard(index));*/
   }
 
   List<Widget> _buildCard(index){
-    return <Widget>[ Card(
+    return <Widget>[ GridTile(
       child:InkWell(
         onTap: () { 
           Navigator.push(context, 
