@@ -5,6 +5,7 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'home.dart';
 import '../utils/launch.dart';
 import 'dart:async';
+import 'dart:math';
 
 import 'package:firebase_admob/firebase_admob.dart';
 
@@ -100,6 +101,11 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
 
  
   Widget build(BuildContext context) {
+  double splashHeight = 1/8 * MediaQuery.of(context).size.height;
+  var rng = new Random();
+  int pickedSplash = rng.nextInt(3);
+
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -116,18 +122,25 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        "Bienvenue sur Demivolee",
-                        style: TextStyle(
-                          fontFamily: "Bebas Neue",
-                          color: Colors.white,
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 30.0),
-                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10.0),
+                        padding: EdgeInsets.only(top: 50.0),
                       ),
-                      Image.asset("assets/Splash-fond.png", width: 270,),
+                      Container(child: 
+                        Text(
+                          "Bienvenue sur Demivolee",
+                          style: TextStyle(
+                            fontFamily: "Bebas Neue",
+                            color: Colors.white,
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 30.0),
+                        ),
+                      ),
+                       Padding(
+                        padding: EdgeInsets.only(top: splashHeight),
+                      ),
+                      Expanded(
+                        child : Image.asset("assets/Splash-fond_"+ pickedSplash.toString() +".png"),      
+                      )
                     ],
                   ),
                 ),
