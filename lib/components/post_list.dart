@@ -111,22 +111,25 @@ class _DVPostListState extends State<DVPostList> {
               this.loadMorePosts(context);
             }
           },
-          child:
-          ListView.builder(
-            itemCount: this._posts == null ? 0 : this._posts.length,
-            
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: 
-                  (index % adEveryEach == 1) ? _buildCardWithAdMob(index) : _buildCard(index)
-              );
-            },
-        ),
+          child: 
+            ListView.builder(
+              itemCount: this._posts == null ? 0 : this._posts.length,
+              
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: 
+                    (index % adEveryEach == 1) ? _buildCardWithAdMob(index) : _buildCard(index)
+                );
+              },
+            ),
+          
+          
         ),
     );
   }
   _buildCardWithAdMob(index){
     int admobIndex = (index ~/ adEveryEach) % ADMOB_BannerPostList.length ; 
+    //return _buildCard(index);
     return <Widget>[AdmobBanner(
       adUnitId: ADMOB_BannerPostList[admobIndex] ,
       adSize: (admobIndex == 1) ? AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.LARGE_BANNER
