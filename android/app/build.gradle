@@ -61,8 +61,8 @@ android {
                 variant.outputs.each { output ->
                     project.ext { appName = 'demivolee' }
                     if (variant.buildType.name != "debug") {
-                        //output.outputFileName = "demivolee-${variant.versionName}-${variant.versionCode}.apk"
-                        output.outputFileName = "app-release.apk"
+                        output.outputFileName = "demivolee-${variant.versionName}-${variant.versionCode}.apk"
+                        //output.outputFileName = "app-release.apk"
                     }
                 }
             }
