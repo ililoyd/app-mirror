@@ -6,6 +6,7 @@ import 'author.dart';
 import '../components/post_body.dart';
 import 'package:demivolee/controllers/authorController.dart';
 //import '../page/disqus.dart';
+//https://www.demivolee.com/wp-json/wp/v2/posts?include[]=21649&include[]=35&include[]=22076
 
 class DVPostPreloaded extends DVPost {
   final Post post;

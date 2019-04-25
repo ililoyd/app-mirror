@@ -31,6 +31,8 @@ class _DVPostListState extends State<DVPostList> {
   bool flagReady = true;
   final int adEveryEach = 5;
 
+  bool  pressed = false;
+
   bool notNull(Object o) => o != null;
 
 // Function to fetch list of posts
@@ -200,22 +202,40 @@ class _DVPostListState extends State<DVPostList> {
     );
   }
   Widget _buildTile(index){
-    return Column(
+    
+    return Stack(
       children: <Widget>[
-        _buildImage(index), 
+        Column(
+          children: <Widget>[
+            _buildImage(index), 
 
-        new Padding(
-          padding: EdgeInsets.all(10.0),
-          child: new ListTile(
-            title: new Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0), 
-              child: new Text((this._posts[index].getTitle))
+            new Padding(
+              padding: EdgeInsets.all(10.0),
+              child: new ListTile(
+                title: new Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0), 
+                  child: new Text((this._posts[index].getTitle))
+                ), 
+                subtitle: new Text(
+                  this._posts[index].getExcerpt,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
             ),
-            subtitle: new Text(
-              this._posts[index].getExcerpt,
-              textAlign: TextAlign.justify,
-            ),
-          ),
+          ]
+        ),
+        Align(alignment: Alignment.topRight,
+          child: 
+          Padding(
+            padding: EdgeInsets.only(right:10, top: 0),
+            child : IconButton(
+                icon : (this.pressed) ? Icon(Icons.star, size: 32, color: Colors.amber,) : Icon(Icons.star_border, size: 32, color: Colors.amber,),
+                onPressed: () {
+                  setState(() => this.pressed = !this.pressed);
+                }
+            )
+          )
+          
         ),
       ],
     );
