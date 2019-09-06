@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:webview_flutter/webview_flutter.dart';
+//import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 //import 'dart:async';
 
 
@@ -17,6 +17,21 @@ class DVDisqusState extends State<DVDisqus> {
   @override
   Widget build(BuildContext context) {
     
+    /*return new WebviewScaffold(
+      url: widget.disqusUri,
+      appBar: new AppBar(
+        title: const Text('Widget webview'),
+      ),
+      withZoom: true,
+      withLocalStorage: true,
+      hidden: true,
+      initialChild: Container(
+        color: Colors.redAccent,
+        child: const Center(
+          child: Text('Waiting.....'),
+        ),
+      ),
+    );*/
 
     return Scaffold(
       appBar: new AppBar(

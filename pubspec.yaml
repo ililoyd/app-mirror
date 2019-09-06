@@ -27,6 +27,8 @@ dependencies:
   #  path : "../flutter_html/"
   cached_network_image: ^0.6.2
   html: ^0.13.4+1
+  # flutter_webview_plugin: ^0.3.4
+  firebase_crashlytics: ^0.1.0+3
 
 dev_dependencies:
   flutter_test:
