@@ -21,8 +21,8 @@ class Html extends StatelessWidget {
     this.onImageError,
     this.linkStyle = const TextStyle(
         decoration: TextDecoration.underline,
-        color: Colors.blueAccent,
-        decorationColor: Colors.blueAccent),
+        color: Color(0xffef5055),
+        decorationColor: Color(0xffef5055),),
     this.imageProperties,
     this.onImageTap,
     this.showImages = true,

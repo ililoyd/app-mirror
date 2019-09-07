@@ -101,7 +101,13 @@ class DVPostBody extends StatelessWidget {
           // Content Body
           new Container(
             padding: const EdgeInsets.only(bottom: 8.0, top:8.0),
-            child :  Html(data:this.content, useRichText: true, onLinkTap: (link){onTapLink(link, context);}, imageProperties: ImageProperties(width: -1, height: -1), ),
+            child :  Html(data:this.content, 
+            useRichText: true, 
+            onLinkTap: (link){onTapLink(link, context);},
+            /*onImageTap: (imageUrl){
+                Navigator.of(context).push(FadeTransitionRoute(page: PhotoViewDialog(imageProvider: NetworkImage(imageUrl), loadingChild: CupertinoActivityIndicator(),)));
+              },*/
+            imageProperties: ImageProperties(width: -1, height: -1), ),
             //child : new MarkdownBody(data: this.content, onTapLink: (link){onTapLink(link,context);} ),
           ),
 

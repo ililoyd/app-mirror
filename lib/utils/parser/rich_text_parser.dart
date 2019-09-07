@@ -165,8 +165,8 @@ class HtmlRichTextParser extends StatelessWidget {
     this.onImageError,
     this.linkStyle = const TextStyle(
       decoration: TextDecoration.underline,
-      color: Color(0x7def5055),
-      decorationColor: Color(0x7def5055),
+      color: Color(0xffef5055),
+      decorationColor: Color(0xffef5055),
     ),
     this.imageProperties,
     this.onImageTap,
@@ -603,7 +603,8 @@ class HtmlRichTextParser extends StatelessWidget {
               nextContext.parentElement = linkContainer;
               nextContext.rootWidgetList.add(linkContainer);
             } else {
-              TextStyle _linkStyle = parseContext.childStyle.merge(linkStyle);
+              TextStyle _linkStyle = parseContext.childStyle.merge(linkStyle,  );
+
               LinkTextSpan span = LinkTextSpan(
                 style: _linkStyle,
                 url: url,
