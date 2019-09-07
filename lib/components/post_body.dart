@@ -1,3 +1,4 @@
+import 'package:demivolee/utils/parser/image_properties.dart';
 import 'package:flutter/material.dart';
 
 import 'package:transparent_image/transparent_image.dart';
@@ -56,6 +57,7 @@ class DVPostBody extends StatelessWidget {
   DVPostBody({Key key, this.featuredMediaCount, this.featuredMediaURL, this.featuredMediaCompressedURL, this.content, this.author, this.disqus = false}) : super(key: key);
 
   Widget build(BuildContext context) {
+
    return new Padding(
       padding: EdgeInsets.all(16.0),
       child: new ListView(
@@ -99,7 +101,7 @@ class DVPostBody extends StatelessWidget {
           // Content Body
           new Container(
             padding: const EdgeInsets.only(bottom: 8.0, top:8.0),
-            child :  Html(data:this.content, useRichText: true, onLinkTap: (link){onTapLink(link, context);}),
+            child :  Html(data:this.content, useRichText: true, onLinkTap: (link){onTapLink(link, context);}, imageProperties: ImageProperties(width: -1, height: -1), ),
             //child : new MarkdownBody(data: this.content, onTapLink: (link){onTapLink(link,context);} ),
           ),
 
@@ -156,7 +158,8 @@ class DVPostBody extends StatelessWidget {
                           //Author Description
                           Container (
                             width: MediaQuery.of(context).size.width - 96 - 48,
-                            child: Text(this.author.description, style : TextStyle(fontSize: 13)), 
+                            child: Html(data:this.author.description, useRichText: true),
+                            //child: Text(this.author.description, style : TextStyle(fontSize: 13)), 
                           ),
                         ]  
                       )
