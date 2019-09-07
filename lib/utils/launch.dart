@@ -13,7 +13,7 @@ class URLController{
   static void preloadAd(){
     interstitialAd = AdmobInterstitial(
       adUnitId: ADMOB_InterURLLaunch,
-      targetInfo: targetingInfo,
+      //targetInfo: targetingInfo,
       listener: (AdmobAdEvent event, Map<String, dynamic> args) {
         if (event == AdmobAdEvent.loaded){ 
           print("Interstitial Loaded !");

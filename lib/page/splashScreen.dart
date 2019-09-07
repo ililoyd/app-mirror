@@ -83,7 +83,7 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
   void startApp(BuildContext context) async {
     this.homeInterstitialAd = AdmobInterstitial(
       adUnitId: ADMOB_InterStartup,
-      targetInfo: targetingInfo,
+      //targetInfo: targetingInfo,
       listener: this._listener
     );
 
