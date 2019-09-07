@@ -93,7 +93,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
+apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
+
 configurations.all { 
     resolutionStrategy { 
         force 'com.android.support:support-v4:27.1.1' 

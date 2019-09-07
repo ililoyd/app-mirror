@@ -5,8 +5,8 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 //import 'package:demivolee/controllers/cacheController.dart';
-
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'dart:async';
 import 'config/ad_settings.dart';
 
 FirebaseAnalytics analytics = FirebaseAnalytics();
@@ -15,7 +15,9 @@ void main() {
   Admob.initialize(ADMOB_APPID);
   FirebaseAdMob.instance.initialize(appId: ADMOB_APPID);
   //CustomCacheManager();
-  
+
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  runZoned<Future<void>>(() async {
     runApp(MaterialApp(
         theme: new ThemeData(
           brightness: Brightness.light,
@@ -27,5 +29,6 @@ void main() {
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: analytics),
         ],
-  ));
+    ));
+  }, onError: Crashlytics.instance.recordError);
 }

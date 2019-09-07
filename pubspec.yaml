@@ -4,7 +4,7 @@ description: Demivolee companion application. Football news and comments.
 author : betse <anon127nobody@gmail.com>
 homepage: www.demivolee.com
 
-version: 0.6.0+55
+version: 0.7.1+62
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -13,21 +13,22 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.0+1
-  html_unescape: ^1.0.1+2
-  transparent_image: ^0.1.0
+  html_unescape: ^1.0.1+3
+  transparent_image: ^1.0.0
   # flutter_launcher_icons: ^0.7.0
-  flutter_custom_tabs: ^0.5.0
-  firebase_core: ^0.3.1+1
-  firebase_analytics: ^2.0.3
-  firebase_performance: ^0.1.0+4
-  firebase_admob: ^0.8.0+3
-  admob_flutter: 
-    path: "../admob_flutter/"
-  # flutter_html: 
+  flutter_custom_tabs: ^0.6.0
+  firebase_core: ^0.4.0+9
+  firebase_analytics: ^5.0.1
+  firebase_performance: ^0.3.0+4
+  firebase_admob: ^0.9.0+7
+  admob_flutter: ^0.3.1
+  #  path: "../admob_flutter/"
+  #flutter_html: any 
   #  path : "../flutter_html/"
-  cached_network_image: ^0.6.2
-  html: ^0.13.4+1
-  # flutter_webview_plugin: ^0.3.4
+  cached_network_image: ^1.1.1
+  html: ^0.13.4+1 #this
+  flutter_webview_plugin: ^0.3.7
+  webview_flutter: ^0.3.13
   firebase_crashlytics: ^0.1.0+3
 
 dev_dependencies:
