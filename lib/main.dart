@@ -19,6 +19,7 @@ void main() {
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   runZoned<Future<void>>(() async {
     runApp(MaterialApp(
+        title: "Demivolée",
         theme: new ThemeData(
           brightness: Brightness.light,
           primaryColor: const Color(0xffef5055), //Changing this will change the color of the TabBar
