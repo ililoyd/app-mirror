@@ -96,6 +96,7 @@ class _DVPostListState extends State<DVPostList> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
      this.getPosts(widget.requestUriInit, context: context);
     });
+    PostController.getInstance();
   }
 
   Widget build(BuildContext context) {
@@ -229,9 +230,11 @@ class _DVPostListState extends State<DVPostList> {
           Padding(
             padding: EdgeInsets.only(right:10, top: 0),
             child : IconButton(
-                icon : (this.pressed) ? Icon(Icons.star, size: 32, color: Colors.amber,) : Icon(Icons.star_border, size: 32, color: Colors.amber,),
+                icon : (PostController.isFavorite(this._posts[index].getId)) 
+                          ? Icon(Icons.star, size: 32, color: Colors.amber,) 
+                          : Icon(Icons.star_border, size: 32, color: Colors.amber,),
                 onPressed: () {
-                  setState(() => this.pressed = !this.pressed);
+                  setState(() => PostController.toogleFavorite(this._posts[index].getId));
                 }
             )
           )
