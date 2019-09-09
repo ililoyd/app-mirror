@@ -17,6 +17,8 @@ import 'package:admob_flutter/admob_flutter.dart';
 import '../config/ad_settings.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'photoview_dialog.dart';
+
 
 class DVPostBody extends StatelessWidget {
   final int featuredMediaCount;
@@ -104,9 +106,13 @@ class DVPostBody extends StatelessWidget {
             child :  Html(data:this.content, 
             useRichText: true, 
             onLinkTap: (link){onTapLink(link, context);},
-            /*onImageTap: (imageUrl){
-                Navigator.of(context).push(FadeTransitionRoute(page: PhotoViewDialog(imageProvider: NetworkImage(imageUrl), loadingChild: CupertinoActivityIndicator(),)));
-              },*/
+            onImageTap: (imageUrl){
+              Navigator.push(context,
+                          new MaterialPageRoute(
+                            builder: (context) => new PhotoViewDialog(imageUrl: imageUrl),
+                          ),
+                         );
+              },
             imageProperties: ImageProperties(width: -1, height: -1), ),
             //child : new MarkdownBody(data: this.content, onTapLink: (link){onTapLink(link,context);} ),
           ),
