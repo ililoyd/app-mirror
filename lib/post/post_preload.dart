@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:demivolee/components/side_menu.dart';
 
 import '../utils/launch.dart';
 import 'post.dart';
@@ -6,6 +7,8 @@ import 'author.dart';
 import '../components/post_body.dart';
 import 'package:demivolee/controllers/authorController.dart';
 import '../page/disqus.dart';
+import 'package:share/share.dart';
+
 //https://www.demivolee.com/wp-json/wp/v2/posts?include[]=21649&include[]=35&include[]=22076
 
 class DVPostPreloaded extends DVPost {
@@ -22,10 +25,15 @@ class DVPostPreloaded extends DVPost {
     var link = post.getAuthorLink;
     
     return new Scaffold(
-      appBar: new AppBar(
+      drawer: DVSideMenu(),
+      appBar: new AppBar( 
+        leading: const BackButton(),
         title: new Text(post.getTitle),
-        //backgroundColor: Colors.blueAccent,
         backgroundColor: const Color(0xffef5055),
+        actions: <Widget>[IconButton(
+                  icon: const Icon(IconData(59405, fontFamily: 'MaterialIcons')),
+                  onPressed: (){Share.share(post.getLink);},)
+                ],
       ),
       body: new Stack(
         children : [
@@ -52,22 +60,6 @@ class DVPostPreloaded extends DVPost {
                 );
               }
             }),
-
-          /*Center(
-              child : 
-                Container(
-                    child : InkWell(
-                    onTap: () { 
-                      launchURL(context, disqus);
-                    },
-                    child : Image.asset(
-                      "assets/disqus.png",
-                      height: 70, 
-                    ),
-                  ),
-                  alignment: Alignment(0.9,0.9),  
-                )
-          )*/
         ]
      ),
      floatingActionButton: FloatingActionButton(

@@ -24,6 +24,7 @@ class Post {
   final String featuredMediaURL;
   final int featuredMediaCount;
   final Future<String> featuredMediaCompressedURL;
+  final String link;
 
   int get getId => id;
   String get getTitle => title;
@@ -35,9 +36,11 @@ class Post {
   String get getFeaturedMediaURL => featuredMediaURL;
   Future<String> get getFeaturedMediaCompressedURL => featuredMediaCompressedURL;
   int get getFeaturedMediaCount => featuredMediaCount;
+  String get getLink => link;
+
 
   Post({this.id, this.title, this.excerpt, this.content, this.author, 
-  this.authorLink, this.featuredMediaURL, this.featuredMediaCount, this.featuredMediaCompressedURL});
+  this.authorLink, this.featuredMediaURL, this.featuredMediaCount, this.featuredMediaCompressedURL, this.link});
 
   factory Post.fromJson(json,  [Author author]){
     var unescape = new HtmlUnescape();
@@ -52,6 +55,7 @@ class Post {
       featuredMediaCount : json["featured_media"],
       featuredMediaURL: (json["featured_media"] == 0) ? null : json["_embedded"]["wp:featuredmedia"][0]["source_url"],
       featuredMediaCompressedURL: (json["featured_media"] == 0) ? null : PostController.fetchCompressedURL(json["_links"]["wp:featuredmedia"][0]["href"]),
+      link: json["link"],
     );
   }
 }

@@ -1,10 +1,11 @@
+import 'package:demivolee/components/side_menu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:html_unescape/html_unescape.dart';
 
 import 'package:demivolee/controllers/postController.dart';
 import 'post.dart';
-
+import 'package:share/share.dart';
 
 import '../components/post_body.dart';
 
@@ -25,9 +26,16 @@ class DVPostNewLoad extends DVPost {
       builder: (context, snapshot){
         if (snapshot.hasData){
           return new Scaffold(
+            drawer: DVSideMenu(),
+            
             appBar: new AppBar(
+              leading: const BackButton(),
               title: new Text(unescape.convert(snapshot.data.title)),
               backgroundColor: const Color(0xffef5055),
+              actions: <Widget>[IconButton(
+                  icon: const Icon(IconData(59405, fontFamily: 'MaterialIcons')),
+                  onPressed: (){Share.share(snapshot.data.getLink);},)
+                ],
               //backgroundColor: Colors.blueAccent,
             ),
             body: new Stack(

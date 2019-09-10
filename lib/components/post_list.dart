@@ -113,6 +113,7 @@ class _DVPostListState extends State<DVPostList> {
               new Timer(const Duration(seconds: 4), () => this.flagReady=true);
               this.loadMorePosts(context);
             }
+            return true;
           },
           child: 
             _listBuilder(context),

@@ -76,9 +76,10 @@ class DVHomeState extends State<DVHome> {
 
 
     return Scaffold(
-      drawer : (widget.queryAPI !=null) ? null : new DVSideMenu(),
+      drawer : new DVSideMenu(),
 
       appBar: AppBar(
+        leading: (widget.queryAPI !=null) ? BackButton() : null,
         title: this._appBarTitle,
         actions : <Widget>[new IconButton( icon : _searchIcon, onPressed: () => _searchPressed(context),)],
         backgroundColor: const Color(0xFFef5055),
