@@ -1,4 +1,5 @@
 import 'package:demivolee/utils/parser/image_properties.dart';
+import 'package:demivolee/wrapper/admob_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:transparent_image/transparent_image.dart';
@@ -68,7 +69,7 @@ class DVPostBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children :<Widget>[
-              AdmobBanner(
+              AdmobBannerWrapper(
                 adUnitId: ADMOB_BannerPostBody[0],
                 adSize: AdmobBannerSize.BANNER
               ),
@@ -126,7 +127,7 @@ class DVPostBody extends StatelessWidget {
               children :<Widget>[
               new Divider(color: Colors.black,),
 
-              new AdmobBanner(
+              new AdmobBannerWrapper(
                 adUnitId: ADMOB_BannerPostBody[1],
                 adSize: AdmobBannerSize.LARGE_BANNER
               ),

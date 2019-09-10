@@ -4,7 +4,7 @@ description: Demivolee companion application. Football news and comments.
 author : betse <anon127nobody@gmail.com>
 homepage: www.demivolee.com
 
-version: 0.7.1+62
+version: 0.7.2+63
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -33,7 +33,7 @@ dependencies:
   shared_preferences: ^0.5.3+4
   photo_view: ^0.5.0
   share: ^0.6.2+1
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

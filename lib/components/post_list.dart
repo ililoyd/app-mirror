@@ -1,3 +1,4 @@
+import 'package:demivolee/wrapper/admob_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:transparent_image/transparent_image.dart';
@@ -150,7 +151,7 @@ class _DVPostListState extends State<DVPostList> {
   _buildCardWithAdMob(index, callback){
     int admobIndex = (index ~/ adEveryEach) % ADMOB_BannerPostList.length ; 
     //return _buildCard(index);
-    return <Widget>[AdmobBanner(
+    return <Widget>[AdmobBannerWrapper(
       adUnitId: ADMOB_BannerPostList[admobIndex] ,
       adSize: (admobIndex == 1) ? AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.LARGE_BANNER
     ),]..addAll(callback(index));
