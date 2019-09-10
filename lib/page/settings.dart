@@ -6,6 +6,10 @@ class DVSettings extends StatelessWidget {
   DVSettings();
 
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: new AppBar(
+        title: const Text('Paramètres de l\'application'),
+      )
+    );
   }
 }

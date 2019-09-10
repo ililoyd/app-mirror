@@ -1,3 +1,4 @@
+import 'package:demivolee/page/settings.dart';
 import 'package:flutter/material.dart';
 
 /*import '../external/prono.dart';
@@ -148,6 +149,12 @@ class DVSideMenu extends StatelessWidget {
             title: Text('Paramètres', style: _menuTextStyle,),
             leading: new Icon(Icons.settings),
             onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context, new MaterialPageRoute(
+                  builder: (context) => new DVSettings(),
+                ),              
+              );
             },
           ),
         ],
