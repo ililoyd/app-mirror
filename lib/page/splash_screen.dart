@@ -28,7 +28,6 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
   void _listener(AdmobAdEvent event, Map<String, dynamic> args){
 
         if (event == AdmobAdEvent.loaded){ 
-          print("Loaded !");
           this.homeInterstitialAd.show();
           URLController.boolDisplayTimer = false;
           new Timer(Duration(minutes: 15), () => URLController.boolDisplayTimer = true);
@@ -39,7 +38,6 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
           );
         }
         if (event == AdmobAdEvent.closed){
-          print("Ad Closed");
           this.homeInterstitialAd.dispose();
         }
         if (event == AdmobAdEvent.failedToLoad) {
@@ -56,7 +54,6 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
   void _listener2(MobileAdEvent event){
 
       if (event == MobileAdEvent.loaded){ 
-        print("Loaded !");
         this.homeInterstitialAd2.show();
         URLController.boolDisplayTimer = false;
         new Timer(Duration(minutes: 15), () => URLController.boolDisplayTimer = true);
@@ -67,7 +64,6 @@ class DVStateSplashScreen extends State<DVSplashScreen> {
         );
       }
       if (event == MobileAdEvent.closed){
-        print("Ad Closed");
         this.homeInterstitialAd2.dispose();
       }
       if (event == MobileAdEvent.failedToLoad) {
