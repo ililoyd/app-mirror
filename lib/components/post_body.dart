@@ -1,3 +1,4 @@
+import 'package:demivolee/utils/getSlug.dart';
 import 'package:demivolee/utils/parser/image_properties.dart';
 import 'package:demivolee/wrapper/admob_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ import 'package:admob_flutter/admob_flutter.dart';
 import '../config/ad_settings.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'photoview_dialog.dart';
+import '../wrapper/photoview_dialog.dart';
 
 
 class DVPostBody extends StatelessWidget {
@@ -32,26 +33,18 @@ class DVPostBody extends StatelessWidget {
   final bool disqus;
 
   void onTapLink(String href, BuildContext context) {
-    var listSplit = href.split("/");
-    var slug;
-    var regEx1 = RegExp(r"http[s]?:\/\/www\.demivolee\.com\/[\d]{4}\/\d{2}\/\d{2}\/[\w-]*\/");
-    var regEx2 = RegExp(r"http[s]?:\/\/www\.demivolee\.com\/[\d]{4}\/\d{2}\/\d{2}\/[\w-]*\$");
-    if (regEx1.hasMatch(href)) {
-      slug = listSplit[listSplit.length-2];
-    }
-    else if (regEx2.hasMatch(href)) {
-      slug = listSplit[listSplit.length-1];
+    String slug =extractSlugFromLink(href);
+
+    if(slug !=null){
+      Navigator.push(
+        context, new MaterialPageRoute(
+        builder: (context) => new DVPostNewLoad(slug : slug),
+        ),
+      ); 
     }
     else{
       URLController.launchURL(href);
-      return;
     }
-
-    Navigator.push(
-      context, new MaterialPageRoute(
-      builder: (context) => new DVPostNewLoad(slug : slug),
-      ),
-    ); 
     return;
   }
 
@@ -73,7 +66,7 @@ class DVPostBody extends StatelessWidget {
                 adUnitId: ADMOB_BannerPostBody[0],
                 adSize: AdmobBannerSize.BANNER
               ),
-              new Divider(color: Colors.black,),
+              new Divider(color: Theme.of(context).textTheme.body1.color,),
             ]),
 
           // Post Featured Image
@@ -125,16 +118,16 @@ class DVPostBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children :<Widget>[
-              new Divider(color: Colors.black,),
+              new Divider(color: Theme.of(context).textTheme.body1.color,),
 
               new AdmobBannerWrapper(
                 adUnitId: ADMOB_BannerPostBody[1],
                 adSize: AdmobBannerSize.LARGE_BANNER
               ),
-              new Divider(color: Colors.black,)]
+              new Divider(color: Theme.of(context).textTheme.body1.color,)]
            )
           :
-            new Divider(color: Colors.black,),
+            new Divider(color: Theme.of(context).textTheme.body1.color),
 
           (this.author != null) 
           ?

@@ -1,3 +1,4 @@
+import 'package:demivolee/controllers/sharedController.dart';
 import 'package:demivolee/wrapper/admob_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -31,39 +32,62 @@ class _DVPostListState extends State<DVPostList> {
   int currentPageNumber = 1;
   bool flagReady = true;
   final int adEveryEach = 5;
+  bool _stopScroller = false;
+  bool _noPosts = false;
+  bool _noConnectivity = false;
 
-  bool  pressed = false;
+  bool pressed = false;
+  
 
   bool notNull(Object o) => o != null;
 
 // Function to fetch list of posts
-  Future<void> getPosts(requestUri, {store = true, BuildContext context }) async {
-    if(store){
-      final SnackBar snackBar = SnackBar(
-        content: Text('Chargement des articles...', textAlign: TextAlign.center,), 
-        duration: const Duration(seconds: 2),
+  Future<void> getPosts(requestUri, {override = true, BuildContext context }) async {
+    Duration duration;
+    String text;
+
+    if(override){
+      duration = Duration(seconds: 2);
+      text = "Chargement des articles...";
+      this.storedRequest = requestUri;
+    }else{
+      duration = Duration(seconds: 1);
+      text = "Chargement de nouveaux articles...";
+    }
+
+    final SnackBar snackBar = SnackBar(
+        content: Text(text, textAlign: TextAlign.center,), 
+        duration: duration,
         backgroundColor: Color(0xFF323232).withOpacity(0.8),
       );
-      Scaffold.of(context).showSnackBar(snackBar);
-     this.storedRequest = requestUri;
-    }else{
-      final SnackBar snackBar = SnackBar(
-        content: Text('Chargement de nouveaux articles...', textAlign: TextAlign.center,), 
-        duration: const Duration(seconds: 1),
-        backgroundColor: Color(0xFF323232).withOpacity(0.6),
-        );
-      Scaffold.of(context).showSnackBar(snackBar);
-    }
-    List<Post> listPosts = await PostController.fetchPosts(requestUri);
+    Scaffold.of(context).showSnackBar(snackBar);
 
-    setState(() {      
-      if(this._posts != null){
-        this._posts.addAll(listPosts);
+    List<Post> listPosts = await PostController.fetchPosts(requestUri);
+    if(listPosts == null ){
+      if(this._posts == null){
+        setState(() {    
+          this._noConnectivity = true;
+        });
       }
-      else{
-        this._posts = listPosts;
-      } 
-    });
+    }
+    else{
+      if (listPosts.length < 10){
+        this._stopScroller = true;
+      }
+
+      if(listPosts.length == 0 && this._posts == null){
+        this._noPosts = true;
+      }
+
+      setState(() {      
+        if(this._posts != null){
+          this._posts.addAll(listPosts);
+        }
+        else{
+          this._posts = listPosts;
+        } 
+      });
+    }
   }
 
   Future<void> _refreshList(BuildContext context) async {
@@ -85,10 +109,14 @@ class _DVPostListState extends State<DVPostList> {
   }
 
   void loadMorePosts(BuildContext context){
+    if(this._stopScroller){
+      return;
+    }
     setState(() {
       this.currentPageNumber++;
-      this.getPosts(widget.requestUriInit + "&page=" + this.currentPageNumber.toString(), store: false, context: context); 
+      this.getPosts(widget.requestUriInit + "&page=" + this.currentPageNumber.toString(), override: false, context: context); 
     });
+    
   }
 
   @override
@@ -97,35 +125,46 @@ class _DVPostListState extends State<DVPostList> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
      this.getPosts(widget.requestUriInit, context: context);
     });
-    PostController.getInstance();
   }
 
   Widget build(BuildContext context) {
-    
-    //print(this._posts.length);
-    
-    return new RefreshIndicator( 
-      onRefresh: () => _refreshList(context),
-      child:
-        NotificationListener<ScrollNotification>(
-          onNotification: (ScrollNotification scrollInfo) {
-            if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && flagReady) {
-              flagReady=false;
-              new Timer(const Duration(seconds: 4), () => this.flagReady=true);
-              this.loadMorePosts(context);
-            }
-            return true;
-          },
-          child: 
-            _listBuilder(context),
+    if(_noConnectivity){
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children:[
+          Center( child: Text("Probème de connectivité. ", style: TextStyle( fontSize: 17),)),
+          Center( child: Text("Vérifier votre connexion et rafraichissez.", style: TextStyle( fontSize: 17),)),
+          Center( child : IconButton(icon: Icon(Icons.refresh, size: 35, color: Colors.grey,), onPressed: (){ _refreshList(context);},),),
+        ]
+      );
+    }
+    return new NotificationListener<ScrollNotification>(
+      onNotification: (ScrollNotification scrollInfo) {
+        if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && flagReady) {
+          flagReady=false;
+          new Timer(const Duration(seconds: 4), () => this.flagReady=true);
+          this.loadMorePosts(context);
+        }
+        return true;
+      },
+      child: 
+        RefreshIndicator( 
+        onRefresh: () => _refreshList(context),
+        child:
+          _listBuilder(context),
         ),
     );
   }
 
   _listBuilder(BuildContext context){
+    if(this._noPosts){
+      return Center(child: Text("Pas de résultats pour : \"" + widget.requestUriInit.substring(49, widget.requestUriInit.length - 7) +"\"", style: TextStyle( fontSize: 17),),);
+    }
 
     if(MediaQuery.of(context).size.width <= 600){
       return ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: this._posts == null ? 0 : this._posts.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -137,6 +176,7 @@ class _DVPostListState extends State<DVPostList> {
               );
     }
     return GridView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: this._posts == null ? 0 : this._posts.length,
               padding: EdgeInsets.all(4.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.2),
@@ -232,11 +272,11 @@ class _DVPostListState extends State<DVPostList> {
           Padding(
             padding: EdgeInsets.only(right:10, top: 0),
             child : IconButton(
-                icon : (PostController.isFavorite(this._posts[index].getId)) 
+                icon : (SharedController.isFavorite(this._posts[index].getId)) 
                           ? Icon(Icons.star, size: 32, color: Colors.amber,) 
                           : Icon(Icons.star_border, size: 32, color: Colors.amber,),
                 onPressed: () {
-                  setState(() => PostController.toogleFavorite(this._posts[index].getId));
+                  setState(() => SharedController.toogleFavorite(this._posts[index].getId));
                 }
             )
           )

@@ -3,6 +3,7 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import '../config/ad_settings.dart';
 import 'dart:async';
+import '../theme/themes_collection.dart';
 
 class URLController{
   static AdmobInterstitial interstitialAd;
@@ -39,7 +40,6 @@ class URLController{
     
     if( interstitialAd != null){
       if(await interstitialAd.isLoaded && boolDisplayTimer){
-        print("IsLoaded");
         interstitialAd.show();
       }else{
         _launchURL(link);
@@ -50,12 +50,11 @@ class URLController{
   }
 
   static  void _launchURL(String link) async {
-    print("called !");
     try {
       await launch(
         link,
         option: new CustomTabsOption(
-          toolbarColor: const Color(0xffef5055),
+          toolbarColor: DVThemes.DVLightTheme.primaryColor,
           enableDefaultShare: true,
           enableUrlBarHiding: true,
           showPageTitle: true,

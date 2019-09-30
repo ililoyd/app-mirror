@@ -31,7 +31,7 @@ class DVPostNewLoad extends DVPost {
             appBar: new AppBar(
               leading: const BackButton(),
               title: new Text(unescape.convert(snapshot.data.title)),
-              backgroundColor: const Color(0xffef5055),
+              backgroundColor: Theme.of(context).primaryColor,
               actions: <Widget>[IconButton(
                   icon: const Icon(IconData(59405, fontFamily: 'MaterialIcons')),
                   onPressed: (){Share.share(snapshot.data.getLink);},)
@@ -58,7 +58,7 @@ class DVPostNewLoad extends DVPost {
           return new Scaffold(
               appBar: new AppBar(
                 title: new Text("Chargement..."),
-                backgroundColor: const Color(0xffef5055),
+                backgroundColor: Theme.of(context).primaryColor,
                 //backgroundColor: Colors.blueAccent,
               ),
               body : 

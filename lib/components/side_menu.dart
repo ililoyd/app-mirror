@@ -1,3 +1,4 @@
+import 'package:demivolee/controllers/sharedController.dart';
 import 'package:demivolee/page/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,10 @@ class DVSideMenu extends StatelessWidget {
     URLController.preloadAd();
     var urlProno = "https://pronos.demivolee.com";
     var urlCompo = "http://compo.pierrecormier.fr/";
+
+    String favString = SharedController.getFavoritesList();
+    
+    bool disabledFav = !(favString == "" || favString == null) ;
 
     return new Drawer(
       child: ListView(
@@ -48,7 +53,7 @@ class DVSideMenu extends StatelessWidget {
                   ]
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xffef5055),
+                  color: Theme.of(context).primaryColor,
                   //color: Colors.blueAccent,
                 ),
               ),
@@ -67,8 +72,25 @@ class DVSideMenu extends StatelessWidget {
               URLController.launchURL(urlCompo);
             },
           ),
-          new Divider(color: Colors.black,),
+
+          new Divider(color: Theme.of(context).textTheme.body1.color,),
+
           ListTile(
+            leading: new Icon(Icons.star_border),
+            title: Text('Favoris', style: _menuTextStyle,),
+            enabled: disabledFav,
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context, new MaterialPageRoute(
+                  builder: (context) => new DVHome(queryAPI: "posts?include=" +  favString),
+                ),              
+              );
+            },
+          ),
+
+          ListTile(
+            leading: new Icon(Icons.chevron_right),
             title: Text('Dossiers Demivolee', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();
@@ -79,18 +101,9 @@ class DVSideMenu extends StatelessWidget {
               );
             },
           ),
-          /*Container(
-          color: Colors.grey[350],
-          child:
-            ListTile(
-              title: Text('Billets d\'humeur'),
-              onTap: () {
-                //Navigator.of(context).pop();
-                //launchURL(context, urlCompoExpe);
-              },
-        ),
-          ),*/
+
           ListTile(
+            leading: new Icon(Icons.chevron_right),
             title: Text('Contributions', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();
@@ -102,6 +115,7 @@ class DVSideMenu extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: new Icon(Icons.chevron_right),
             title: Text('Ligue 1', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();
@@ -113,6 +127,7 @@ class DVSideMenu extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: new Icon(Icons.chevron_right),
             title: Text('Autres Championnats', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();
@@ -124,6 +139,7 @@ class DVSideMenu extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: new Icon(Icons.chevron_right),
             title: Text('Coupes d\'Europe', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();
@@ -135,6 +151,7 @@ class DVSideMenu extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: new Icon(Icons.chevron_right),
             title: Text('Football des nations', style: _menuTextStyle,),
             onTap: () {
               Navigator.of(context).pop();

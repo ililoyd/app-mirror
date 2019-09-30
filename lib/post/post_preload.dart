@@ -29,7 +29,7 @@ class DVPostPreloaded extends DVPost {
       appBar: new AppBar( 
         leading: const BackButton(),
         title: new Text(post.getTitle),
-        backgroundColor: const Color(0xffef5055),
+        backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[IconButton(
                   icon: const Icon(IconData(59405, fontFamily: 'MaterialIcons')),
                   onPressed: (){Share.share(post.getLink);},)

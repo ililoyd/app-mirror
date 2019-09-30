@@ -1,5 +1,6 @@
+import 'package:demivolee/theme/themes_collection.dart';
 import 'package:flutter/material.dart';
-import 'page/splashScreen.dart';
+import 'page/splash_Screen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:admob_flutter/admob_flutter.dart';
@@ -8,6 +9,9 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'dart:async';
 import 'config/ad_settings.dart';
+import 'package:provider/provider.dart';
+import 'theme/theme_changer.dart';
+import 'controllers/sharedController.dart';
 
 FirebaseAnalytics analytics = FirebaseAnalytics();
 
@@ -18,18 +22,36 @@ void main() {
 
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   runZoned<Future<void>>(() async {
-    runApp(MaterialApp(
+    await SharedController.getInstance();
+    runApp(DVApp());
+  }, onError: Crashlytics.instance.recordError);
+}
+
+class DVApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    
+    return ChangeNotifierProvider<ThemeChanger>(
+      builder: (_) => ThemeChanger(),
+      child: new MaterialAppWithTheme(),
+    );
+  }
+}
+
+class MaterialAppWithTheme extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeChanger>(context);
+    
+    return MaterialApp(
         title: "Demivolée",
-        theme: new ThemeData(
-          brightness: Brightness.light,
-          primaryColor: const Color(0xffef5055), //Changing this will change the color of the TabBar
-          accentColor: const Color(0x7def5055),
-        ),
+        theme: theme.getTheme(),
+        darkTheme: DVThemes.DVDarkTheme,
         home: DVSplashScreen(),
         debugShowCheckedModeBanner: false,
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: analytics),
         ],
-    ));
-  }, onError: Crashlytics.instance.recordError);
+    );
+  }
 }
