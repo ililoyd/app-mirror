@@ -4,7 +4,7 @@ description: Demivolee companion application. Football news and comments.
 author : betse <anon127nobody@gmail.com>
 homepage: www.demivolee.com
 
-version: 0.8.4+80
+version: 0.8.5+85
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
