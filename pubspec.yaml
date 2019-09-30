@@ -28,10 +28,7 @@ dependencies:
   cached_network_image: ^1.1.1
   html: ^0.13.4+1 #this
   webview_flutter:
-    git: 
-      url: git://github.com/devangels/plugins.git
-      ref: cookies
-      path: packages/webview_flutter
+    path: "../plugins/packages/webview_flutter"
   firebase_crashlytics: ^0.1.0+3
   shared_preferences: ^0.5.3+4
   photo_view: ^0.5.0

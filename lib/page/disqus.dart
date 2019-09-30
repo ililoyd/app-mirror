@@ -41,7 +41,7 @@ class DVDisqusState extends State<DVDisqus> {
       withOverviewMode: true,
     
     );*/
-    
+    /*
     var idPost = widget.disqusUri.substring(47);
     var shortName = "lyon-sc";
     print(widget.disqusUri);
@@ -81,23 +81,19 @@ class DVDisqusState extends State<DVDisqus> {
               url.indexOf("disqus.com/_ax/google/complete") > -1
               ||
               url.indexOf("disqus.com/_ax/twitter/complete") > -1
-              ){
-            print("\n\n\n\n\n\n");
-            print(cookieManager.getCookies());    
+              ){ 
             Future.delayed(const Duration(seconds: 2), (){
               //controller.goBack();
               controller.loadUrl(widget.disqusUri);
-              
             });
           }
-          
         },
       )
       
-    );
+    );*/
 
     
-    /*return Scaffold(
+    return Scaffold(
       appBar: new AppBar(
         title: const Text('Réagissez à l\'article'),
       ),
@@ -126,7 +122,7 @@ class DVDisqusState extends State<DVDisqus> {
           }       
         },
       ),
-    );*/
+    );
 
     
 
