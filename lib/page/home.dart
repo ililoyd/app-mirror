@@ -59,7 +59,6 @@ class DVHomeState extends State<DVHome> {
 
     // Attach a listener to the stream
     _sub = getLinksStream().listen((String link) {
-      print("URL DEEP LINK");
       String slug = extractSlugFromLink(link);
       if (slug != null){
         Navigator.push(

@@ -16,6 +16,8 @@ import 'controllers/sharedController.dart';
 FirebaseAnalytics analytics = FirebaseAnalytics();
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   Admob.initialize(ADMOB_APPID);
   FirebaseAdMob.instance.initialize(appId: ADMOB_APPID);
   //CustomCacheManager();

@@ -42,8 +42,8 @@ class PostController {
   static Future<List<Post>> fetchPosts(requestUri) async {
     requestUri = Uri.encodeFull(requestUri);
     http.Response res = await HttpController.get(requestUri);
-    //Stream res = CustomCacheManager().getFile(requestUri);
-
+    //Stream request = CustomCacheManager().getFile(requestUri);
+    
     /**/
     try{
       if (res.statusCode == 200) {

@@ -20,7 +20,6 @@ class Html extends StatelessWidget {
     this.useRichText = true,
     this.onImageError,
     this.linkStyle = const TextStyle(
-        decoration: TextDecoration.underline,
         color: Color(0xffef5055),
         decorationColor: Color(0xffef5055),),
     this.imageProperties,

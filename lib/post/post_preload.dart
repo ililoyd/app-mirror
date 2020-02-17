@@ -6,7 +6,7 @@ import 'post.dart';
 import 'author.dart';
 import '../components/post_body.dart';
 import 'package:demivolee/controllers/authorController.dart';
-import '../page/disqus.dart';
+//import '../page/disqus.dart';
 import 'package:share/share.dart';
 
 //https://www.demivolee.com/wp-json/wp/v2/posts?include[]=21649&include[]=35&include[]=22076
@@ -63,14 +63,14 @@ class DVPostPreloaded extends DVPost {
         ]
      ),
      floatingActionButton: FloatingActionButton(
-      //onPressed: () {URLController.launchURL(disqus); },
-      onPressed: () {
+      onPressed: () {URLController.launchURL(disqus); },
+      /*onPressed: () {
         Navigator.push(
           context, new MaterialPageRoute(
             builder: (context) => new DVDisqus(disqusUri: disqus,),
           ),
         );
-       },
+       },*/
       child: Image.asset("assets/disqus.png",height: 70, ),
       backgroundColor: Colors.white10,
 
