@@ -1,3 +1,6 @@
+import 'package:demivolee/utils/getSlug.dart';
+import 'package:demivolee/utils/parser/image_properties.dart';
+import 'package:demivolee/wrapper/admob_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:transparent_image/transparent_image.dart';
@@ -16,6 +19,8 @@ import 'package:admob_flutter/admob_flutter.dart';
 import '../config/ad_settings.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import '../wrapper/photoview_dialog.dart';
+
 
 class DVPostBody extends StatelessWidget {
   final int featuredMediaCount;
@@ -28,26 +33,18 @@ class DVPostBody extends StatelessWidget {
   final bool disqus;
 
   void onTapLink(String href, BuildContext context) {
-    var listSplit = href.split("/");
-    var slug;
-    var regEx1 = RegExp(r"http[s]?:\/\/www\.demivolee\.com\/[\d]{4}\/\d{2}\/\d{2}\/[\w-]*\/");
-    var regEx2 = RegExp(r"http[s]?:\/\/www\.demivolee\.com\/[\d]{4}\/\d{2}\/\d{2}\/[\w-]*\$");
-    if (regEx1.hasMatch(href)) {
-      slug = listSplit[listSplit.length-2];
-    }
-    else if (regEx2.hasMatch(href)) {
-      slug = listSplit[listSplit.length-1];
+    String slug =extractSlugFromLink(href);
+
+    if(slug !=null){
+      Navigator.push(
+        context, new MaterialPageRoute(
+        builder: (context) => new DVPostNewLoad(slug : slug),
+        ),
+      ); 
     }
     else{
       URLController.launchURL(href);
-      return;
     }
-
-    Navigator.push(
-      context, new MaterialPageRoute(
-      builder: (context) => new DVPostNewLoad(slug : slug),
-      ),
-    ); 
     return;
   }
 
@@ -56,6 +53,7 @@ class DVPostBody extends StatelessWidget {
   DVPostBody({Key key, this.featuredMediaCount, this.featuredMediaURL, this.featuredMediaCompressedURL, this.content, this.author, this.disqus = false}) : super(key: key);
 
   Widget build(BuildContext context) {
+
    return new Padding(
       padding: EdgeInsets.all(16.0),
       child: new ListView(
@@ -64,11 +62,11 @@ class DVPostBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children :<Widget>[
-              AdmobBanner(
+              AdmobBannerWrapper(
                 adUnitId: ADMOB_BannerPostBody[0],
                 adSize: AdmobBannerSize.BANNER
               ),
-              new Divider(color: Colors.black,),
+              new Divider(color: Theme.of(context).textTheme.body1.color,),
             ]),
 
           // Post Featured Image
@@ -99,7 +97,17 @@ class DVPostBody extends StatelessWidget {
           // Content Body
           new Container(
             padding: const EdgeInsets.only(bottom: 8.0, top:8.0),
-            child :  Html(data:this.content, useRichText: true, onLinkTap: (link){onTapLink(link, context);}),
+            child :  Html(data:this.content, 
+            useRichText: true, 
+            onLinkTap: (link){onTapLink(link, context);},
+            onImageTap: (imageUrl){
+              Navigator.push(context,
+                          new MaterialPageRoute(
+                            builder: (context) => new PhotoViewDialog(imageUrl: imageUrl),
+                          ),
+                         );
+              },
+            imageProperties: ImageProperties(width: -1, height: -1), ),
             //child : new MarkdownBody(data: this.content, onTapLink: (link){onTapLink(link,context);} ),
           ),
 
@@ -110,16 +118,16 @@ class DVPostBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children :<Widget>[
-              new Divider(color: Colors.black,),
+              new Divider(color: Theme.of(context).textTheme.body1.color,),
 
-              new AdmobBanner(
+              new AdmobBannerWrapper(
                 adUnitId: ADMOB_BannerPostBody[1],
                 adSize: AdmobBannerSize.LARGE_BANNER
               ),
-              new Divider(color: Colors.black,)]
+              new Divider(color: Theme.of(context).textTheme.body1.color,)]
            )
           :
-            new Divider(color: Colors.black,),
+            new Divider(color: Theme.of(context).textTheme.body1.color),
 
           (this.author != null) 
           ?
@@ -156,7 +164,8 @@ class DVPostBody extends StatelessWidget {
                           //Author Description
                           Container (
                             width: MediaQuery.of(context).size.width - 96 - 48,
-                            child: Text(this.author.description, style : TextStyle(fontSize: 13)), 
+                            child: Html(data:this.author.description, useRichText: true),
+                            //child: Text(this.author.description, style : TextStyle(fontSize: 13)), 
                           ),
                         ]  
                       )

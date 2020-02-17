@@ -3,12 +3,14 @@ import 'package:demivolee/post/author.dart';
 import 'package:demivolee/controllers/httpController.dart';
 //import 'package:demivolee/controllers/cacheController.dart';
 
+
 import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
 
 class PostController {
+  
 
   static Future<Post> fetchPostFromSlug(slug, context) async {
     var url = Uri.encodeFull("https://www.demivolee.com/wp-json/wp/v2/posts?slug=" + slug + "&_embed");
@@ -30,20 +32,19 @@ class PostController {
       else {
         throw Exception('Failed to load post !');
       }
-    } on Exception {
-      return null;
+    }catch (e) {
+      print(e.toString());
     }
+    return null;
   }
 
   // Function to fetch list of posts
   static Future<List<Post>> fetchPosts(requestUri) async {
     requestUri = Uri.encodeFull(requestUri);
     http.Response res = await HttpController.get(requestUri);
-    //Stream res = CustomCacheManager().getFile(requestUri);
-
-    /*if(res == null){
-      return;
-    }*/
+    //Stream request = CustomCacheManager().getFile(requestUri);
+    
+    /**/
     try{
       if (res.statusCode == 200) {
         var resBody = json.decode(res.body);
@@ -54,16 +55,16 @@ class PostController {
       }
       else {
         if(res.statusCode == 400){
-          print("Max Range");
           return null;
         }
         else{
           throw Exception('Failed to load Post');
         }
       }
-    } on Exception {
-      return null;
+    }catch (e) {
+      print(e.toString());
     }
+    return null;
     /*
     Encoding encoding;
     var resBody = json.decode(encoding.decode(res.));

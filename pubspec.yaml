@@ -4,7 +4,7 @@ description: Demivolee companion application. Football news and comments.
 author : betse <anon127nobody@gmail.com>
 homepage: www.demivolee.com
 
-version: 0.5.0+47
+version: 0.9.2+1 
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -12,21 +12,34 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.12.0+1
-  html_unescape: ^1.0.1+2
-  transparent_image: ^0.1.0
+  http: ^0.12.0+2
+  html_unescape: ^1.0.1+3
+  transparent_image: ^1.0.0
   # flutter_launcher_icons: ^0.7.0
-  flutter_custom_tabs: ^0.5.0
-  firebase_core: ^0.3.1+1
-  firebase_analytics: ^2.0.3
-  firebase_performance: ^0.1.0+4
-  firebase_admob: ^0.8.0+3
-  admob_flutter: 
-    path: "../admob_flutter/"
-  # flutter_html: 
+
+  flutter_custom_tabs: ^0.6.0
+  firebase_core: ^0.4.0+9
+  firebase_analytics: ^5.0.2
+  firebase_performance: ^0.3.0+5
+  firebase_admob: ^0.9.0+7
+  firebase_crashlytics: ^0.1.0+3
+
+  admob_flutter: ^0.3.3
+  #  path: "../admob_flutter/"
+  #flutter_html: any 
   #  path : "../flutter_html/"
-  cached_network_image: ^0.6.2
-  html: ^0.13.4+1
+  cached_network_image: ^2.0.0-rc.1
+  html: ^0.14.0+3 #this
+  webview_flutter:
+    path: "../plugins/packages/webview_flutter"
+  
+  shared_preferences: ^0.5.3+4
+  photo_view: ^0.5.0
+  share: ^0.6.2+1
+  uni_links: ^0.2.0
+  provider: ^3.1.0
+
+  package_info: ^0.4.0+13
 
 dev_dependencies:
   flutter_test:
@@ -46,7 +59,7 @@ flutter:
   fonts:
     - family : Tw Cen MT
       fonts : 
-        - asset : fonts/Tw Cen MT.ttf
+        - asset : fonts/Tw_Cen_MT.ttf
 
     - family : Bebas Neue
       fonts :

@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../components/side_menu.dart';
 import '../components/post_list.dart';
+import 'package:uni_links/uni_links.dart';
+import 'dart:async';
+import 'package:demivolee/utils/getSlug.dart';
+import 'package:demivolee/post/post_newload.dart';
+import 'package:flutter/services.dart';
 
 class DVHome extends StatefulWidget {
   DVHome({Key key, this.queryAPI, this.appBarTitle, this.isStartup = false}) : super(key: key);
@@ -15,6 +20,7 @@ class DVHome extends StatefulWidget {
 }
 
 class DVHomeState extends State<DVHome> {
+  StreamSubscription _sub;
   final TextEditingController _filter = new TextEditingController();
 
   final String apiUrl = "https://demivolee.com/wp-json/wp/v2/";
@@ -29,6 +35,50 @@ class DVHomeState extends State<DVHome> {
   ,);
 
   Widget _legacyAppBarTitle;
+
+  
+
+  Future<Null> initUniLinks() async {
+
+    try {
+      String initialLink = await getInitialLink();
+      if(initialLink != null){
+        String slug = extractSlugFromLink(initialLink);
+        if (slug != null){
+          Navigator.push(
+            context, new MaterialPageRoute(
+            builder: (context) => new DVPostNewLoad(slug : slug),
+            ),
+          ); 
+        }
+      }
+    } on PlatformException {
+      print("Message erreur");
+    }
+    
+
+    // Attach a listener to the stream
+    _sub = getLinksStream().listen((String link) {
+      String slug = extractSlugFromLink(link);
+      if (slug != null){
+        Navigator.push(
+          context, new MaterialPageRoute(
+          builder: (context) => new DVPostNewLoad(slug : slug),
+          ),
+        ); 
+      }
+
+      print(link);
+    }, onError: (err) {
+      print(err);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.initUniLinks();
+  }
 
   void _searchPressed(BuildContext context) {
     setState(() {
@@ -74,18 +124,27 @@ class DVHomeState extends State<DVHome> {
                   :
                     new DVPostList(requestUriInit: apiUrl + "posts?_embed",);
 
-
+    
     return Scaffold(
-      drawer : (widget.queryAPI !=null) ? null : new DVSideMenu(),
+      drawer : new DVSideMenu(),
 
       appBar: AppBar(
+        leading: (widget.queryAPI !=null) ? BackButton() : null,
         title: this._appBarTitle,
         actions : <Widget>[new IconButton( icon : _searchIcon, onPressed: () => _searchPressed(context),)],
-        backgroundColor: const Color(0xFFef5055),
+        backgroundColor: Theme.of(context).primaryColor,
         //backgroundColor: Colors.blueAccent
       ),
 
       body: this.bodyList,
     );
+  }
+
+  @override
+  void dispose() {
+    if (this._sub != null){
+      this._sub.cancel();
+    }
+    super.dispose();
   }
 }

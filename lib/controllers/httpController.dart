@@ -8,7 +8,7 @@ class HttpController {
     
     await metric.start();
     try{
-      http.Response res = await _get(requestUrl, headers);
+      http.Response res = await http.get(requestUrl, headers: headers);
       metric
         ..responsePayloadSize = res.contentLength
         ..responseContentType = res.headers['Content-Type']
@@ -23,7 +23,6 @@ class HttpController {
     return null;
   }
 
-  static _get(requestUrl, headers) async{
-    return await http.get(requestUrl, headers: headers);
-  }
+
+  
 }

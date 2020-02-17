@@ -61,8 +61,8 @@ android {
                 variant.outputs.each { output ->
                     project.ext { appName = 'demivolee' }
                     if (variant.buildType.name != "debug") {
-                        //output.outputFileName = "demivolee-${variant.versionName}-${variant.versionCode}.apk"
-                        output.outputFileName = "app-release.apk"
+                        output.outputFileName = "demivolee-${variant.versionName}-${variant.versionCode}.apk"
+                        //output.outputFileName = "app-release.apk"
                     }
                 }
             }
@@ -93,7 +93,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
+apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
+
 configurations.all { 
     resolutionStrategy { 
         force 'com.android.support:support-v4:27.1.1' 
