@@ -177,6 +177,7 @@ class _DVPostListState extends State<DVPostList> {
     }
     return GridView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
               itemCount: this._posts == null ? 0 : this._posts.length,
               padding: EdgeInsets.all(4.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.2),
